@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { type User } from '../data/schema'
+import { type Student } from '../data/schema'
 
 /* -------------------------------------------------------------------------- */
 /*                                   Schema                                   */
@@ -94,7 +94,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 type Props = {
-  currentRow?: User
+  currentRow?: Student
   open: boolean
   onOpenChange: (open: boolean) => void
 }
@@ -103,7 +103,11 @@ type Props = {
 /*                                 Component                                  */
 /* -------------------------------------------------------------------------- */
 
-export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
+export function StudentsActionDialog({
+  currentRow,
+  open,
+  onOpenChange,
+}: Props) {
   const isEdit = !!currentRow
   const [step, setStep] = useState(0)
 
@@ -187,7 +191,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-h-screen overflow-y-scroll sm:max-w-4xl'>
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit User' : 'Add User'}</DialogTitle>
+          <DialogTitle>{isEdit ? 'Edit Student' : 'Add Student'}</DialogTitle>
           <DialogDescription>{steps[step]}</DialogDescription>
         </DialogHeader>
 
@@ -205,7 +209,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
 
         <Form {...form}>
           <form
-            id='user-form'
+            id='student-form'
             onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-6'
           >
@@ -785,7 +789,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
           {step < steps.length - 1 ? (
             <Button onClick={next}>Next</Button>
           ) : (
-            <Button type='submit' form='user-form'>
+            <Button type='submit' form='student-form'>
               Save
             </Button>
           )}

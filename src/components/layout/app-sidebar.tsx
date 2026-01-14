@@ -1,4 +1,3 @@
-import { Command } from 'lucide-react'
 import { useLayout } from '@/context/layout-provider'
 import {
   Sidebar,

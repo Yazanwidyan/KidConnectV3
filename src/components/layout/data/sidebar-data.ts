@@ -42,7 +42,7 @@ export const sidebarData: SidebarData = {
       items: [
         { title: 'Dashboard', url: '/', icon: LayoutDashboard },
         { title: 'Groups', url: '/groups', icon: ClipboardList },
-        { title: 'Students', url: '/users', icon: GraduationCap },
+        { title: 'Students', url: '/students', icon: GraduationCap },
         { title: 'Employees', url: '/employees', icon: Briefcase },
         { title: 'Reports', url: '/reports', icon: BarChart3 },
         {
