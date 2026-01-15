@@ -12,6 +12,7 @@ export const groups = Array.from({ length: 500 }, () => {
     id: faker.string.uuid(),
     name,
     color,
+    totalStudents: faker.number.int({ min: 5, max: 20 }),
     groupType: faker.helpers.arrayElement(['infants', 'toddlers', 'preschool']),
     maxStudents: faker.number.int({ min: 5, max: 20 }),
     minAge: faker.number.int({ min: 0, max: 3 }),

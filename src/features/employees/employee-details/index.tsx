@@ -1,4 +1,9 @@
-import { Link, useParams } from '@tanstack/react-router'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,21 +21,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { StudentsProvider } from '../components/students-provider'
+import { Link, useParams } from '@tanstack/react-router'
 
-// Adjust path accordingly
+import { EmployeesProvider } from '../components/employees-provider'
 
-export function StudentDetails() {
-  const { studentId } = useParams({ strict: false })
+export function EmployeeDetails() {
+  const { employeeId } = useParams({ strict: false })
 
   return (
-    <StudentsProvider>
+    <EmployeesProvider>
       {/* ===== Top Heading ===== */}
       <Header fixed>
         <Search />
@@ -43,7 +42,7 @@ export function StudentDetails() {
 
       {/* ===== Main Content ===== */}
       <Main>
-        <div className='mb-4 flex flex-col space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0'>
+        <div className='mb-4 flex flex-col space-y-2 md:flex-row md:items-center md:justify-between'>
           <div>
             <Breadcrumb>
               <BreadcrumbList>
@@ -56,23 +55,23 @@ export function StudentDetails() {
 
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link to='/students'>Students</Link>
+                    <Link to='/employees'>Employees</Link>
                   </BreadcrumbLink>
                   <BreadcrumbSeparator />
                 </BreadcrumbItem>
 
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{studentId}</BreadcrumbPage>
+                  <BreadcrumbPage>{employeeId}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
 
             <h1 className='mt-1 text-2xl font-bold tracking-tight'>
-              {studentId}
+              Employee – {employeeId}
             </h1>
           </div>
 
-          <Button variant='outline'>Download Report</Button>
+          <Button variant='outline'>Download Profile</Button>
         </div>
 
         <Tabs
@@ -83,61 +82,60 @@ export function StudentDetails() {
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
-              <TabsTrigger value='academic'>Academic Info</TabsTrigger>
+              <TabsTrigger value='job'>Job Info</TabsTrigger>
               <TabsTrigger value='attendance'>Attendance</TabsTrigger>
               <TabsTrigger value='contacts'>Contacts</TabsTrigger>
               <TabsTrigger value='notes'>Notes</TabsTrigger>
             </TabsList>
           </div>
 
-          {/* Overview Tab */}
+          {/* ===== Overview ===== */}
           <TabsContent value='overview' className='space-y-6'>
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
               <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Enrollment Status
-                  </CardTitle>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Employment Status</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className='text-2xl font-bold'>Active</div>
                   <p className='text-xs text-muted-foreground'>
-                    Enrolled since 01/09/2024
+                    Joined on 01/09/2022
                   </p>
                 </CardContent>
               </Card>
+
               <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Grade</CardTitle>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Role</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>Grade 8</div>
+                  <div className='text-2xl font-bold'>Teacher</div>
                   <p className='text-xs text-muted-foreground'>
-                    Current academic year
+                    Full-time staff
                   </p>
                 </CardContent>
               </Card>
+
               <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>GPA</CardTitle>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Department</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>3.8</div>
+                  <div className='text-2xl font-bold'>Kindergarten</div>
                   <p className='text-xs text-muted-foreground'>
-                    Based on latest semester
+                    Early education
                   </p>
                 </CardContent>
               </Card>
+
               <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Attendance
-                  </CardTitle>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Attendance</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>96%</div>
+                  <div className='text-2xl font-bold'>98%</div>
                   <p className='text-xs text-muted-foreground'>
-                    Attendance rate this year
+                    This academic year
                   </p>
                 </CardContent>
               </Card>
@@ -145,85 +143,89 @@ export function StudentDetails() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Overview</CardTitle>
-              </CardHeader>
-            </Card>
-          </TabsContent>
-
-          {/* Academic Info Tab */}
-          <TabsContent value='academic' className='space-y-4'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Subjects & Grades</CardTitle>
-                <CardDescription>
-                  Latest term grades and performance overview
-                </CardDescription>
+                <CardTitle>Profile Summary</CardTitle>
               </CardHeader>
               <CardContent>
-                {/* Replace with real academic info component or table */}
-                <ul className='list-disc space-y-1 ps-5'>
-                  <li>Mathematics: A</li>
-                  <li>Science: B+</li>
-                  <li>English: A-</li>
-                  <li>History: B</li>
-                  <li>Physical Education: A</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Attendance Tab */}
-          <TabsContent value='attendance' className='space-y-4'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Attendance Records</CardTitle>
-                <CardDescription>Monthly attendance overview</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {/* Replace with actual attendance graph or data */}
                 <p className='text-muted-foreground'>
-                  Attendance data and charts go here.
+                  Experienced educator with strong classroom management skills
+                  and excellent engagement with children.
                 </p>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Contacts Tab */}
-          <TabsContent value='contacts' className='space-y-4'>
+          {/* ===== Job Info ===== */}
+          <TabsContent value='job'>
             <Card>
               <CardHeader>
-                <CardTitle>Emergency Contacts</CardTitle>
+                <CardTitle>Job Information</CardTitle>
+                <CardDescription>
+                  Position details and responsibilities
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                {/* Replace with a contacts list */}
                 <ul className='list-disc space-y-1 ps-5'>
-                  <li>John Doe - Father - 555-123-4567</li>
-                  <li>Jane Doe - Mother - 555-987-6543</li>
-                  <li>Uncle Mike - Authorized Pickup - 555-456-7890</li>
+                  <li>Position: Kindergarten Teacher</li>
+                  <li>Contract: Full-time</li>
+                  <li>Working Hours: 8:00 – 15:00</li>
+                  <li>Assigned Groups: KG-A, KG-B</li>
                 </ul>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Notes Tab */}
-          <TabsContent value='notes' className='space-y-4'>
+          {/* ===== Attendance ===== */}
+          <TabsContent value='attendance'>
             <Card>
               <CardHeader>
-                <CardTitle>Teacher's Notes</CardTitle>
+                <CardTitle>Attendance Records</CardTitle>
                 <CardDescription>
-                  Important remarks and observations
+                  Monthly presence and leave summary
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className='text-muted-foreground'>
-                  John is very attentive in class and shows great enthusiasm in
-                  science projects.
+                  Attendance charts and leave history will appear here.
+                </p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* ===== Contacts ===== */}
+          <TabsContent value='contacts'>
+            <Card>
+              <CardHeader>
+                <CardTitle>Contact Information</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className='list-disc space-y-1 ps-5'>
+                  <li>Email: employee@school.com</li>
+                  <li>Phone: +962 7X XXX XXXX</li>
+                  <li>Emergency Contact: Spouse – 079 XXX XXXX</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* ===== Notes ===== */}
+          <TabsContent value='notes'>
+            <Card>
+              <CardHeader>
+                <CardTitle>Administrative Notes</CardTitle>
+                <CardDescription>
+                  Internal remarks and evaluations
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className='text-muted-foreground'>
+                  Excellent performance, consistently positive feedback from
+                  parents and supervisors.
                 </p>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
       </Main>
-    </StudentsProvider>
+    </EmployeesProvider>
   )
 }

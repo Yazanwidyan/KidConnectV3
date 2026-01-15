@@ -5,11 +5,11 @@ import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { LongText } from '@/components/long-text'
-import { callTypes } from '../data/data'
-import { type Group } from '../data/schema'
+import { callTypes, roles } from '../data/data'
+import { type Employee } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const groupsColumns: ColumnDef<Group>[] = [
+export const employeesColumns: ColumnDef<Employee>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -38,27 +38,26 @@ export const groupsColumns: ColumnDef<Group>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'employeename',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Group Name' />
+      <DataTableColumnHeader column={column} title='Employee Name' />
     ),
     cell: ({ row }) => {
-      const groupId = row.original.id
-      const groupName: string = row.getValue('name')
+      const employeeId = row.original.id
+      const employeeName: string = row.getValue('employeename')
 
       return (
         <LongText className='max-w-44 ps-3'>
           <Link
-            to='/groups/group-details/$groupId'
-            params={{ groupId }}
+            to='/employees/employee-details/$employeeId'
+            params={{ employeeId }}
             className='rounded-sm text-primary underline-offset-4 hover:underline focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
           >
-            {groupName}
+            {employeeName}
           </Link>
         </LongText>
       )
     },
-
     meta: {
       className: cn(
         'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)]',
@@ -68,55 +67,47 @@ export const groupsColumns: ColumnDef<Group>[] = [
     enableHiding: false,
   },
   {
-    id: 'color',
+    accessorKey: 'parent1',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Color' />
+      <DataTableColumnHeader column={column} title='Parent 1' />
     ),
-    cell: ({ row }) => {
-      const { color } = row.original
-
-      return (
-        <div className='flex items-center gap-2'>
-          <span
-            className='h-4 w-4 rounded-full border'
-            style={{ backgroundColor: color }}
-          />
-        </div>
-      )
-    },
-    meta: { className: 'w-36' },
-  },
-
-  {
-    accessorKey: 'groupType',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Type' />
+    cell: ({ row }) => (
+      <LongText className='max-w-36'>{row.getValue('parent1')}</LongText>
     ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex items-center gap-x-2'>
-          <span className='text-sm capitalize'>
-            {row.getValue('groupType')}
-          </span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+    meta: {
+      className: cn(
+        'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)]',
+        'ps-0.5 max-md:sticky start-6 @4xl/content:table-cell @4xl/content:drop-shadow-none'
+      ),
     },
     enableSorting: false,
-    enableHiding: false,
   },
   {
-    id: 'totalStudents',
+    accessorKey: 'parent2',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Total Students' />
+      <DataTableColumnHeader column={column} title='Parent 2' />
     ),
-    cell: ({ row }) => {
-      const { totalStudents } = row.original
-      return <LongText className='max-w-36'>{totalStudents}</LongText>
+    cell: ({ row }) => (
+      <LongText className='max-w-36'>{row.getValue('parent2')}</LongText>
+    ),
+    meta: {
+      className: cn(
+        'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)]',
+        'ps-0.5 max-md:sticky start-6 @4xl/content:table-cell @4xl/content:drop-shadow-none'
+      ),
     },
-    meta: { className: 'w-36' },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'age',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Age' />
+    ),
+    cell: ({ row }) => (
+      <LongText className='max-w-36 ps-3'>{row.getValue('age')}</LongText>
+    ),
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     accessorKey: 'status',
@@ -140,7 +131,34 @@ export const groupsColumns: ColumnDef<Group>[] = [
     enableHiding: false,
     enableSorting: false,
   },
+  {
+    accessorKey: 'role',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Role' />
+    ),
+    cell: ({ row }) => {
+      const { role } = row.original
+      const employeeType = roles.find(({ value }) => value === role)
 
+      if (!employeeType) {
+        return null
+      }
+
+      return (
+        <div className='flex items-center gap-x-2'>
+          {employeeType.icon && (
+            <employeeType.icon size={16} className='text-muted-foreground' />
+          )}
+          <span className='text-sm capitalize'>{row.getValue('role')}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     id: 'actions',
     cell: DataTableRowActions,

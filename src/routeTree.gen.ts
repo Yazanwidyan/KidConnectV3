@@ -25,9 +25,12 @@ import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedStudentsIndexRouteImport } from './routes/_authenticated/students/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedNotificationsIndexRouteImport } from './routes/_authenticated/notifications/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups/index'
+import { Route as AuthenticatedEmployeesIndexRouteImport } from './routes/_authenticated/employees/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedAnnouncementsIndexRouteImport } from './routes/_authenticated/announcements/index'
 import { Route as AuthenticatedAdmissionsIndexRouteImport } from './routes/_authenticated/admissions/index'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
@@ -35,6 +38,8 @@ import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_a
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedStudentsStudentDetailsStudentIdRouteImport } from './routes/_authenticated/students/student-details/$studentId'
+import { Route as AuthenticatedGroupsGroupDetailsGroupIdRouteImport } from './routes/_authenticated/groups/group-details/$groupId'
+import { Route as AuthenticatedEmployeesEmployeeDetailsEmployeeIdRouteImport } from './routes/_authenticated/employees/employee-details/$employeeId'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -118,6 +123,12 @@ const AuthenticatedSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedNotificationsIndexRoute =
+  AuthenticatedNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
@@ -130,11 +141,23 @@ const AuthenticatedGroupsIndexRoute =
     path: '/groups/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedEmployeesIndexRoute =
+  AuthenticatedEmployeesIndexRouteImport.update({
+    id: '/employees/',
+    path: '/employees/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   id: '/chats/',
   path: '/chats/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAnnouncementsIndexRoute =
+  AuthenticatedAnnouncementsIndexRouteImport.update({
+    id: '/announcements/',
+    path: '/announcements/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdmissionsIndexRoute =
   AuthenticatedAdmissionsIndexRouteImport.update({
     id: '/admissions/',
@@ -177,6 +200,18 @@ const AuthenticatedStudentsStudentDetailsStudentIdRoute =
     path: '/students/student-details/$studentId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedGroupsGroupDetailsGroupIdRoute =
+  AuthenticatedGroupsGroupDetailsGroupIdRouteImport.update({
+    id: '/groups/group-details/$groupId',
+    path: '/groups/group-details/$groupId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute =
+  AuthenticatedEmployeesEmployeeDetailsEmployeeIdRouteImport.update({
+    id: '/employees/employee-details/$employeeId',
+    path: '/employees/employee-details/$employeeId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
@@ -197,12 +232,17 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/admissions': typeof AuthenticatedAdmissionsIndexRoute
+  '/announcements': typeof AuthenticatedAnnouncementsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/employees': typeof AuthenticatedEmployeesIndexRoute
   '/groups': typeof AuthenticatedGroupsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
+  '/groups/group-details/$groupId': typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   '/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
 }
 export interface FileRoutesByTo {
@@ -223,12 +263,17 @@ export interface FileRoutesByTo {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/admissions': typeof AuthenticatedAdmissionsIndexRoute
+  '/announcements': typeof AuthenticatedAnnouncementsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/employees': typeof AuthenticatedEmployeesIndexRoute
   '/groups': typeof AuthenticatedGroupsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
+  '/groups/group-details/$groupId': typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   '/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
 }
 export interface FileRoutesById {
@@ -252,12 +297,17 @@ export interface FileRoutesById {
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/admissions/': typeof AuthenticatedAdmissionsIndexRoute
+  '/_authenticated/announcements/': typeof AuthenticatedAnnouncementsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/employees/': typeof AuthenticatedEmployeesIndexRoute
   '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/notifications/': typeof AuthenticatedNotificationsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/students/': typeof AuthenticatedStudentsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
+  '/_authenticated/groups/group-details/$groupId': typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   '/_authenticated/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
 }
 export interface FileRouteTypes {
@@ -281,12 +331,17 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/admissions'
+    | '/announcements'
     | '/chats'
+    | '/employees'
     | '/groups'
     | '/help-center'
+    | '/notifications'
     | '/settings/'
     | '/students'
     | '/users'
+    | '/employees/employee-details/$employeeId'
+    | '/groups/group-details/$groupId'
     | '/students/student-details/$studentId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -307,12 +362,17 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/admissions'
+    | '/announcements'
     | '/chats'
+    | '/employees'
     | '/groups'
     | '/help-center'
+    | '/notifications'
     | '/settings'
     | '/students'
     | '/users'
+    | '/employees/employee-details/$employeeId'
+    | '/groups/group-details/$groupId'
     | '/students/student-details/$studentId'
   id:
     | '__root__'
@@ -335,12 +395,17 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/admissions/'
+    | '/_authenticated/announcements/'
     | '/_authenticated/chats/'
+    | '/_authenticated/employees/'
     | '/_authenticated/groups/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/notifications/'
     | '/_authenticated/settings/'
     | '/_authenticated/students/'
     | '/_authenticated/users/'
+    | '/_authenticated/employees/employee-details/$employeeId'
+    | '/_authenticated/groups/group-details/$groupId'
     | '/_authenticated/students/student-details/$studentId'
   fileRoutesById: FileRoutesById
 }
@@ -472,6 +537,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/notifications/': {
+      id: '/_authenticated/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/help-center/': {
       id: '/_authenticated/help-center/'
       path: '/help-center'
@@ -486,11 +558,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGroupsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/employees/': {
+      id: '/_authenticated/employees/'
+      path: '/employees'
+      fullPath: '/employees'
+      preLoaderRoute: typeof AuthenticatedEmployeesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/chats/': {
       id: '/_authenticated/chats/'
       path: '/chats'
       fullPath: '/chats'
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/announcements/': {
+      id: '/_authenticated/announcements/'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof AuthenticatedAnnouncementsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admissions/': {
@@ -542,6 +628,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStudentsStudentDetailsStudentIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/groups/group-details/$groupId': {
+      id: '/_authenticated/groups/group-details/$groupId'
+      path: '/groups/group-details/$groupId'
+      fullPath: '/groups/group-details/$groupId'
+      preLoaderRoute: typeof AuthenticatedGroupsGroupDetailsGroupIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/employees/employee-details/$employeeId': {
+      id: '/_authenticated/employees/employee-details/$employeeId'
+      path: '/employees/employee-details/$employeeId'
+      fullPath: '/employees/employee-details/$employeeId'
+      preLoaderRoute: typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -573,11 +673,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAdmissionsIndexRoute: typeof AuthenticatedAdmissionsIndexRoute
+  AuthenticatedAnnouncementsIndexRoute: typeof AuthenticatedAnnouncementsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedEmployeesIndexRoute: typeof AuthenticatedEmployeesIndexRoute
   AuthenticatedGroupsIndexRoute: typeof AuthenticatedGroupsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
+  AuthenticatedNotificationsIndexRoute: typeof AuthenticatedNotificationsIndexRoute
   AuthenticatedStudentsIndexRoute: typeof AuthenticatedStudentsIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute: typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
+  AuthenticatedGroupsGroupDetailsGroupIdRoute: typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   AuthenticatedStudentsStudentDetailsStudentIdRoute: typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
 }
 
@@ -586,11 +691,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAdmissionsIndexRoute: AuthenticatedAdmissionsIndexRoute,
+  AuthenticatedAnnouncementsIndexRoute: AuthenticatedAnnouncementsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedEmployeesIndexRoute: AuthenticatedEmployeesIndexRoute,
   AuthenticatedGroupsIndexRoute: AuthenticatedGroupsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
+  AuthenticatedNotificationsIndexRoute: AuthenticatedNotificationsIndexRoute,
   AuthenticatedStudentsIndexRoute: AuthenticatedStudentsIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute:
+    AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute,
+  AuthenticatedGroupsGroupDetailsGroupIdRoute:
+    AuthenticatedGroupsGroupDetailsGroupIdRoute,
   AuthenticatedStudentsStudentDetailsStudentIdRoute:
     AuthenticatedStudentsStudentDetailsStudentIdRoute,
 }
