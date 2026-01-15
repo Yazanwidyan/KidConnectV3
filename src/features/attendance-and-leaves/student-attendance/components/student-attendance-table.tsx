@@ -22,9 +22,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { admissionTypes } from '../data/data'
-import { admissionColumns as columns } from './admissions-columns'
+import { studentAttendanceTypes } from '../data/data'
 import { DataTableBulkActions } from './data-table-bulk-actions'
+import { studentAttendanceColumns as columns } from './student-attendance-columns'
 
 type DataTableProps = {
   data: any
@@ -32,7 +32,11 @@ type DataTableProps = {
   navigate: NavigateFn
 }
 
-export function AdmissionsTable({ data, search, navigate }: DataTableProps) {
+export function StudentAttendanceTable({
+  data,
+  search,
+  navigate,
+}: DataTableProps) {
   // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -57,7 +61,11 @@ export function AdmissionsTable({ data, search, navigate }: DataTableProps) {
       // username per-column text filter
       { columnId: 'name', searchKey: 'name', type: 'string' },
       { columnId: 'status', searchKey: 'status', type: 'array' },
-      { columnId: 'admissionType', searchKey: 'admissionType', type: 'array' },
+      {
+        columnId: 'studentAttendanceType',
+        searchKey: 'studentAttendanceType',
+        type: 'array',
+      },
     ],
   })
 
@@ -99,7 +107,7 @@ export function AdmissionsTable({ data, search, navigate }: DataTableProps) {
     >
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter admissions...'
+        searchPlaceholder='Filter studentAttendance...'
         searchKey='name'
         filters={[
           {
@@ -111,24 +119,27 @@ export function AdmissionsTable({ data, search, navigate }: DataTableProps) {
             ],
           },
           {
-            columnId: 'admissionType',
+            columnId: 'studentAttendanceType',
             title: 'Type',
-            options: admissionTypes.map((type) => ({ ...type })),
+            options: studentAttendanceTypes.map((type) => ({ ...type })),
           },
         ]}
       />
       <div className='overflow-hidden rounded-md border'>
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerAdmission) => (
-              <TableRow key={headerAdmission.id} className='admission/row'>
-                {headerAdmission.headers.map((header) => {
+            {table.getHeaderGroups().map((headerStudentAttendance) => (
+              <TableRow
+                key={headerStudentAttendance.id}
+                className='studentAttendance/row'
+              >
+                {headerStudentAttendance.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
                       className={cn(
-                        'admission-hover/row:bg-muted admission-data-[state=selected]/row:bg-muted bg-background',
+                        'studentAttendance-hover/row:bg-muted studentAttendance-data-[state=selected]/row:bg-muted bg-background',
                         header.column.columnDef.meta?.className,
                         header.column.columnDef.meta?.thClassName
                       )}
@@ -151,13 +162,13 @@ export function AdmissionsTable({ data, search, navigate }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className='admission/row'
+                  className='studentAttendance/row'
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        'admission-hover/row:bg-muted admission-data-[state=selected]/row:bg-muted bg-background',
+                        'studentAttendance-hover/row:bg-muted studentAttendance-data-[state=selected]/row:bg-muted bg-background',
                         cell.column.columnDef.meta?.className,
                         cell.column.columnDef.meta?.tdClassName
                       )}

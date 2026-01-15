@@ -24,11 +24,15 @@ import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-p
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedStudentsIndexRouteImport } from './routes/_authenticated/students/index'
+import { Route as AuthenticatedStudentLeavesIndexRouteImport } from './routes/_authenticated/student-leaves/index'
+import { Route as AuthenticatedStudentAttendanceIndexRouteImport } from './routes/_authenticated/student-attendance/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedNotificationsIndexRouteImport } from './routes/_authenticated/notifications/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups/index'
 import { Route as AuthenticatedEmployeesIndexRouteImport } from './routes/_authenticated/employees/index'
+import { Route as AuthenticatedEmployeeLeavesIndexRouteImport } from './routes/_authenticated/employee-leaves/index'
+import { Route as AuthenticatedEmployeeAttendanceIndexRouteImport } from './routes/_authenticated/employee-attendance/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedAnnouncementsIndexRouteImport } from './routes/_authenticated/announcements/index'
 import { Route as AuthenticatedAdmissionsIndexRouteImport } from './routes/_authenticated/admissions/index'
@@ -117,6 +121,18 @@ const AuthenticatedStudentsIndexRoute =
     path: '/students/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStudentLeavesIndexRoute =
+  AuthenticatedStudentLeavesIndexRouteImport.update({
+    id: '/student-leaves/',
+    path: '/student-leaves/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStudentAttendanceIndexRoute =
+  AuthenticatedStudentAttendanceIndexRouteImport.update({
+    id: '/student-attendance/',
+    path: '/student-attendance/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
@@ -145,6 +161,18 @@ const AuthenticatedEmployeesIndexRoute =
   AuthenticatedEmployeesIndexRouteImport.update({
     id: '/employees/',
     path: '/employees/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmployeeLeavesIndexRoute =
+  AuthenticatedEmployeeLeavesIndexRouteImport.update({
+    id: '/employee-leaves/',
+    path: '/employee-leaves/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmployeeAttendanceIndexRoute =
+  AuthenticatedEmployeeAttendanceIndexRouteImport.update({
+    id: '/employee-attendance/',
+    path: '/employee-attendance/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
@@ -234,11 +262,15 @@ export interface FileRoutesByFullPath {
   '/admissions': typeof AuthenticatedAdmissionsIndexRoute
   '/announcements': typeof AuthenticatedAnnouncementsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/employee-attendance': typeof AuthenticatedEmployeeAttendanceIndexRoute
+  '/employee-leaves': typeof AuthenticatedEmployeeLeavesIndexRoute
   '/employees': typeof AuthenticatedEmployeesIndexRoute
   '/groups': typeof AuthenticatedGroupsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/student-attendance': typeof AuthenticatedStudentAttendanceIndexRoute
+  '/student-leaves': typeof AuthenticatedStudentLeavesIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
@@ -265,11 +297,15 @@ export interface FileRoutesByTo {
   '/admissions': typeof AuthenticatedAdmissionsIndexRoute
   '/announcements': typeof AuthenticatedAnnouncementsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/employee-attendance': typeof AuthenticatedEmployeeAttendanceIndexRoute
+  '/employee-leaves': typeof AuthenticatedEmployeeLeavesIndexRoute
   '/employees': typeof AuthenticatedEmployeesIndexRoute
   '/groups': typeof AuthenticatedGroupsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/student-attendance': typeof AuthenticatedStudentAttendanceIndexRoute
+  '/student-leaves': typeof AuthenticatedStudentLeavesIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
@@ -299,11 +335,15 @@ export interface FileRoutesById {
   '/_authenticated/admissions/': typeof AuthenticatedAdmissionsIndexRoute
   '/_authenticated/announcements/': typeof AuthenticatedAnnouncementsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/employee-attendance/': typeof AuthenticatedEmployeeAttendanceIndexRoute
+  '/_authenticated/employee-leaves/': typeof AuthenticatedEmployeeLeavesIndexRoute
   '/_authenticated/employees/': typeof AuthenticatedEmployeesIndexRoute
   '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/notifications/': typeof AuthenticatedNotificationsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/student-attendance/': typeof AuthenticatedStudentAttendanceIndexRoute
+  '/_authenticated/student-leaves/': typeof AuthenticatedStudentLeavesIndexRoute
   '/_authenticated/students/': typeof AuthenticatedStudentsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
@@ -333,11 +373,15 @@ export interface FileRouteTypes {
     | '/admissions'
     | '/announcements'
     | '/chats'
+    | '/employee-attendance'
+    | '/employee-leaves'
     | '/employees'
     | '/groups'
     | '/help-center'
     | '/notifications'
     | '/settings/'
+    | '/student-attendance'
+    | '/student-leaves'
     | '/students'
     | '/users'
     | '/employees/employee-details/$employeeId'
@@ -364,11 +408,15 @@ export interface FileRouteTypes {
     | '/admissions'
     | '/announcements'
     | '/chats'
+    | '/employee-attendance'
+    | '/employee-leaves'
     | '/employees'
     | '/groups'
     | '/help-center'
     | '/notifications'
     | '/settings'
+    | '/student-attendance'
+    | '/student-leaves'
     | '/students'
     | '/users'
     | '/employees/employee-details/$employeeId'
@@ -397,11 +445,15 @@ export interface FileRouteTypes {
     | '/_authenticated/admissions/'
     | '/_authenticated/announcements/'
     | '/_authenticated/chats/'
+    | '/_authenticated/employee-attendance/'
+    | '/_authenticated/employee-leaves/'
     | '/_authenticated/employees/'
     | '/_authenticated/groups/'
     | '/_authenticated/help-center/'
     | '/_authenticated/notifications/'
     | '/_authenticated/settings/'
+    | '/_authenticated/student-attendance/'
+    | '/_authenticated/student-leaves/'
     | '/_authenticated/students/'
     | '/_authenticated/users/'
     | '/_authenticated/employees/employee-details/$employeeId'
@@ -530,6 +582,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStudentsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/student-leaves/': {
+      id: '/_authenticated/student-leaves/'
+      path: '/student-leaves'
+      fullPath: '/student-leaves'
+      preLoaderRoute: typeof AuthenticatedStudentLeavesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/student-attendance/': {
+      id: '/_authenticated/student-attendance/'
+      path: '/student-attendance'
+      fullPath: '/student-attendance'
+      preLoaderRoute: typeof AuthenticatedStudentAttendanceIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
       path: '/'
@@ -563,6 +629,20 @@ declare module '@tanstack/react-router' {
       path: '/employees'
       fullPath: '/employees'
       preLoaderRoute: typeof AuthenticatedEmployeesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/employee-leaves/': {
+      id: '/_authenticated/employee-leaves/'
+      path: '/employee-leaves'
+      fullPath: '/employee-leaves'
+      preLoaderRoute: typeof AuthenticatedEmployeeLeavesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/employee-attendance/': {
+      id: '/_authenticated/employee-attendance/'
+      path: '/employee-attendance'
+      fullPath: '/employee-attendance'
+      preLoaderRoute: typeof AuthenticatedEmployeeAttendanceIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chats/': {
@@ -675,10 +755,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdmissionsIndexRoute: typeof AuthenticatedAdmissionsIndexRoute
   AuthenticatedAnnouncementsIndexRoute: typeof AuthenticatedAnnouncementsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedEmployeeAttendanceIndexRoute: typeof AuthenticatedEmployeeAttendanceIndexRoute
+  AuthenticatedEmployeeLeavesIndexRoute: typeof AuthenticatedEmployeeLeavesIndexRoute
   AuthenticatedEmployeesIndexRoute: typeof AuthenticatedEmployeesIndexRoute
   AuthenticatedGroupsIndexRoute: typeof AuthenticatedGroupsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedNotificationsIndexRoute: typeof AuthenticatedNotificationsIndexRoute
+  AuthenticatedStudentAttendanceIndexRoute: typeof AuthenticatedStudentAttendanceIndexRoute
+  AuthenticatedStudentLeavesIndexRoute: typeof AuthenticatedStudentLeavesIndexRoute
   AuthenticatedStudentsIndexRoute: typeof AuthenticatedStudentsIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute: typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
@@ -693,10 +777,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdmissionsIndexRoute: AuthenticatedAdmissionsIndexRoute,
   AuthenticatedAnnouncementsIndexRoute: AuthenticatedAnnouncementsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedEmployeeAttendanceIndexRoute:
+    AuthenticatedEmployeeAttendanceIndexRoute,
+  AuthenticatedEmployeeLeavesIndexRoute: AuthenticatedEmployeeLeavesIndexRoute,
   AuthenticatedEmployeesIndexRoute: AuthenticatedEmployeesIndexRoute,
   AuthenticatedGroupsIndexRoute: AuthenticatedGroupsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedNotificationsIndexRoute: AuthenticatedNotificationsIndexRoute,
+  AuthenticatedStudentAttendanceIndexRoute:
+    AuthenticatedStudentAttendanceIndexRoute,
+  AuthenticatedStudentLeavesIndexRoute: AuthenticatedStudentLeavesIndexRoute,
   AuthenticatedStudentsIndexRoute: AuthenticatedStudentsIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
   AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute:

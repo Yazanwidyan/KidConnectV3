@@ -1,33 +1,32 @@
-import { register } from 'node:module'
 import { z } from 'zod'
 
-const admissionStatusSchema = z.union([
+const studentAttendanceStatusSchema = z.union([
   z.literal('active'),
   z.literal('inactive'),
   z.literal('invited'),
   z.literal('suspended'),
 ])
-export type StudentStatus = z.infer<typeof admissionStatusSchema>
+export type StudentStatus = z.infer<typeof studentAttendanceStatusSchema>
 
-const admissionRoleSchema = z.union([
+const studentAttendanceRoleSchema = z.union([
   z.literal('superadmin'),
   z.literal('admin'),
   z.literal('cashier'),
   z.literal('manager'),
 ])
 
-const admissionSchema = z.object({
+const studentAttendanceSchema = z.object({
   id: z.string(),
   registerId:z.string(),
   studentname: z.string(),
   parent1: z.string(),
   parent2: z.string(),
   age: z.number(),
-  status: admissionStatusSchema,
-  role: admissionRoleSchema,
+  status: studentAttendanceStatusSchema,
+  role: studentAttendanceRoleSchema,
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 })
-export type Student = z.infer<typeof admissionSchema>
+export type Student = z.infer<typeof studentAttendanceSchema>
 
-export const studentListSchema = z.array(admissionSchema)
+export const studentListSchema = z.array(studentAttendanceSchema)

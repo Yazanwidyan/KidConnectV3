@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 // Set a fixed seed for consistent data generation
 faker.seed(67890)
 
-export const admissions = Array.from({ length: 500 }, () => {
+export const studentAttendance = Array.from({ length: 500 }, () => {
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
 

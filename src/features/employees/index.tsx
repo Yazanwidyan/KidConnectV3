@@ -1,10 +1,11 @@
-import { getRouteApi } from '@tanstack/react-router'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { getRouteApi } from '@tanstack/react-router'
+
 import { EmployeesDialogs } from './components/employees-dialogs'
 import { EmployeesPrimaryButtons } from './components/employees-primary-buttons'
 import { EmployeesProvider } from './components/employees-provider'
@@ -35,9 +36,10 @@ export function Employees() {
               Employees List
             </h2>
             <p className='text-muted-foreground'>
-              Manage your employees and their roles here.
+              Manage your workforce and their roles all in one place
             </p>
           </div>
+
           <EmployeesPrimaryButtons />
         </div>
         <EmployeesTable data={employees} search={search} navigate={navigate} />

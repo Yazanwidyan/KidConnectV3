@@ -9,7 +9,7 @@ import { callTypes } from '../data/data'
 import { type Student } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const admissionColumns: ColumnDef<Student>[] = [
+export const studentAttendanceColumns: ColumnDef<Student>[] = [
   {
     id: 'select',
     header: ({ table }) => (

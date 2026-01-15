@@ -1,10 +1,11 @@
-import { getRouteApi } from '@tanstack/react-router'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { getRouteApi } from '@tanstack/react-router'
+
 import { StudentsDialogs } from './components/students-dialogs'
 import { StudentsPrimaryButtons } from './components/students-primary-buttons'
 import { StudentsProvider } from './components/students-provider'
@@ -33,9 +34,10 @@ export function Students() {
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>Students List</h2>
             <p className='text-muted-foreground'>
-              Manage your students and their roles here.
+              Manage student information and statuses efficiently
             </p>
           </div>
+
           <StudentsPrimaryButtons />
         </div>
         <StudentsTable data={students} search={search} navigate={navigate} />

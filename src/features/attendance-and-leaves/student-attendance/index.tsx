@@ -5,23 +5,21 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TabsContent } from '@/components/ui/tabs'
 import { getRouteApi } from '@tanstack/react-router'
 
-import { AdmissionsDialogs } from './components/admissions-dialogs'
-import { AdmissionsPrimaryButtons } from './components/admissions-primary-buttons'
-import { AdmissionsProvider } from './components/admissions-provider'
-import { AdmissionsTable } from './components/admissions-table'
-import { admissions } from './data/admissions'
+import { StudentAttendanceDialogs } from './components/student-attendance-dialogs'
+import { StudentAttendancePrimaryButtons } from './components/student-attendance-primary-buttons'
+import { StudentAttendanceProvider } from './components/student-attendance-provider'
+import { StudentAttendanceTable } from './components/student-attendance-table'
 
-const route = getRouteApi('/_authenticated/admissions/')
+const route = getRouteApi('/_authenticated/student-attendance/')
 
-export function Admissions() {
+export function StudentAttendance() {
   const search = route.useSearch()
   const navigate = route.useNavigate()
 
   return (
-    <AdmissionsProvider>
+    <StudentAttendanceProvider>
       <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
@@ -71,22 +69,25 @@ export function Admissions() {
 
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Admissions</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              StudentAttendance
+            </h2>
             <p className='text-muted-foreground'>
-              Manage student admissions and streamline the enrollment process
+              Manage student StudentAttendance and streamline the enrollment
+              process
             </p>
           </div>
 
-          <AdmissionsPrimaryButtons />
+          <StudentAttendancePrimaryButtons />
         </div>
-        <AdmissionsTable
-          data={admissions}
+        <StudentAttendanceTable
+          data={StudentAttendance}
           search={search}
           navigate={navigate}
         />
       </Main>
 
-      <AdmissionsDialogs />
-    </AdmissionsProvider>
+      <StudentAttendanceDialogs />
+    </StudentAttendanceProvider>
   )
 }
