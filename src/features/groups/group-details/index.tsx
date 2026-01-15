@@ -21,12 +21,21 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Link, useParams } from '@tanstack/react-router'
+import { Link, getRouteApi, useParams } from '@tanstack/react-router'
 
+import { students } from '../../students/data/students'
 import { GroupsProvider } from '../components/groups-provider'
+import { GroupStudentsDialogs } from './components/group-students/group-students-dialogs'
+import { GroupStudentsPrimaryButtons } from './components/group-students/group-students-primary-buttons'
+import { GroupStudentsProvider } from './components/group-students/group-students-provider'
+import { GroupStudentsTable } from './components/group-students/group-students-table'
+
+const route = getRouteApi('/_authenticated/groups/group-details/$groupId')
 
 export function GroupDetails() {
   const { groupId } = useParams({ strict: false })
+  const search = route.useSearch()
+  const navigate = route.useNavigate()
 
   return (
     <GroupsProvider>
@@ -156,21 +165,27 @@ export function GroupDetails() {
 
           {/* ===== Students ===== */}
           <TabsContent value='students'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Enrolled Students</CardTitle>
-                <CardDescription>
-                  List of children currently in this group
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className='list-disc space-y-1 ps-5'>
-                  <li>Adam Ali (Age 4)</li>
-                  <li>Lina Hassan (Age 5)</li>
-                  <li>Omar Saleh (Age 4)</li>
-                </ul>
-              </CardContent>
-            </Card>
+            <GroupStudentsProvider>
+              <div className='flex flex-1 flex-col gap-4 sm:gap-6'>
+                <div className='flex flex-wrap items-end justify-between gap-2'>
+                  <div>
+                    <h2 className='text-2xl font-bold tracking-tight'>
+                      Students List
+                    </h2>
+                    <p className='text-muted-foreground'>
+                      Manage your students and their roles here.
+                    </p>
+                  </div>
+                  <GroupStudentsPrimaryButtons />
+                </div>
+                <GroupStudentsTable
+                  data={students}
+                  search={search}
+                  navigate={navigate}
+                />
+              </div>
+              <GroupStudentsDialogs />
+            </GroupStudentsProvider>
           </TabsContent>
 
           {/* ===== Schedule ===== */}
