@@ -2,14 +2,11 @@ import { Link } from '@tanstack/react-router'
 import { type ColumnDef } from '@tanstack/react-table'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { LongText } from '@/components/long-text'
-import { callTypes, roles } from '../data/data'
-import { type Employee } from '../data/schema'
-import { DataTableRowActions } from './data-table-row-actions'
+import { callTypes, roles } from '../../../features/employees/data/data'
 
-export const employeesColumns: ColumnDef<Employee>[] = [
+export const AssignEmployeesColumns: ColumnDef<any>[] = [
   {
     accessorKey: 'employeename',
     header: ({ column }) => (
@@ -115,10 +112,5 @@ export const employeesColumns: ColumnDef<Employee>[] = [
     },
     enableHiding: false,
     enableSorting: false,
-  },
-
-  {
-    id: 'actions',
-    cell: DataTableRowActions,
   },
 ]

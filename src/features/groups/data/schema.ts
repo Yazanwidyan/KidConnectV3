@@ -6,7 +6,7 @@ const groupStatusSchema = z.union([
 ])
 export type GroupStatus = z.infer<typeof groupStatusSchema>
 
-const groupTypeSchema = z.union([
+export const groupTypeSchema = z.union([
   z.literal('infants'),
   z.literal('toddlers'),
   z.literal('preschool'),
@@ -21,6 +21,7 @@ const groupSchema = z.object({
   minAge: z.number(),
   maxAge: z.number(),
   status: groupStatusSchema,
+  ageRange:z.number(),
   groupType: groupTypeSchema,
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),

@@ -22,17 +22,32 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Slider } from '@/components/ui/slider'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { groupTypes } from '../data/data'
 import { type Group } from '../data/schema'
+
+/* ----------------------------- SCHEMA ----------------------------- */
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required.'),
   color: z.string().min(1, 'Color is required.'),
   groupType: z.string().min(1, 'Type is required.'),
+
+  maxStudents: z.coerce.number().int().positive().optional(),
+
+  ageRange: z
+    .tuple([z.number(), z.number()])
+    .refine(([min, max]) => min <= max, {
+      message: 'Min age must be less than max age',
+    }),
+
   isEdit: z.boolean(),
 })
+
 type GroupForm = z.infer<typeof formSchema>
+
+/* ----------------------------- PROPS ----------------------------- */
 
 type GroupActionDialogProps = {
   currentRow?: Group
@@ -40,25 +55,30 @@ type GroupActionDialogProps = {
   onOpenChange: (open: boolean) => void
 }
 
+/* ----------------------------- COMPONENT ----------------------------- */
+
 export function GroupsActionDialog({
   currentRow,
   open,
   onOpenChange,
 }: GroupActionDialogProps) {
   const isEdit = !!currentRow
-  const form = useForm<GroupForm>({
+
+  const form = useForm<any>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      color: '',
-      groupType: '',
+      name: currentRow?.name ?? '',
+      color: currentRow?.color ?? '',
+      groupType: currentRow?.groupType ?? '',
+      maxStudents: currentRow?.maxStudents,
+      ageRange: currentRow?.ageRange ?? [2, 5],
       isEdit,
     },
   })
 
   const onSubmit = (values: GroupForm) => {
-    form.reset()
     showSubmittedData(values)
+    form.reset()
     onOpenChange(false)
   }
 
@@ -74,22 +94,24 @@ export function GroupsActionDialog({
         <DialogHeader className='text-start'>
           <DialogTitle>{isEdit ? 'Edit Group' : 'Add New Group'}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the Group here. ' : 'Create new Group here. '}
-            Click save when you&apos;re done.
+            {isEdit ? 'Update the group details.' : 'Create a new group.'} Click
+            save when you’re done.
           </DialogDescription>
         </DialogHeader>
-        <div className='h-105 w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3'>
+
+        <div className='h-72 w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3'>
           <Form {...form}>
             <form
               id='group-form'
               onSubmit={form.handleSubmit(onSubmit)}
               className='space-y-4 px-0.5'
             >
+              {/* ---------------- Name ---------------- */}
               <FormField
                 control={form.control}
                 name='name'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
+                  <FormItem className='grid grid-cols-6 items-center gap-x-4'>
                     <FormLabel className='col-span-2 text-end'>Name</FormLabel>
                     <FormControl>
                       <Input
@@ -103,35 +125,47 @@ export function GroupsActionDialog({
                   </FormItem>
                 )}
               />
+
+              {/* ---------------- Color ---------------- */}
               <FormField
                 control={form.control}
                 name='color'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
+                  <FormItem className='grid grid-cols-6 items-center gap-x-4'>
                     <FormLabel className='col-span-2 text-end'>Color</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='blue'
-                        className='col-span-4'
-                        autoComplete='off'
-                        {...field}
-                      />
-                    </FormControl>
+
+                    <div className='col-span-4 flex items-center gap-3'>
+                      <FormControl>
+                        <Input
+                          type='color'
+                          className='h-10 w-14 cursor-pointer rounded-md p-1'
+                          {...field}
+                        />
+                      </FormControl>
+
+                      {/* Optional: show hex value */}
+                      <span className='text-sm text-muted-foreground'>
+                        {field.value || '#000000'}
+                      </span>
+                    </div>
+
                     <FormMessage className='col-span-4 col-start-3' />
                   </FormItem>
                 )}
               />
+
+              {/* ---------------- Group Type ---------------- */}
               <FormField
                 control={form.control}
                 name='groupType'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
+                  <FormItem className='grid grid-cols-6 items-center gap-x-4'>
                     <FormLabel className='col-span-2 text-end'>Type</FormLabel>
                     <SelectDropdown
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                       placeholder='Select a type'
-                      className='col-span-4'
+                      className='col-span-4 w-full'
                       items={groupTypes.map(({ label, value }) => ({
                         label,
                         value,
@@ -141,9 +175,64 @@ export function GroupsActionDialog({
                   </FormItem>
                 )}
               />
+
+              {/* ---------------- Max Students ---------------- */}
+              <FormField
+                control={form.control}
+                name='maxStudents'
+                render={({ field }) => (
+                  <FormItem className='grid grid-cols-6 items-center gap-x-4'>
+                    <FormLabel className='col-span-2 text-end'>
+                      Max Students
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type='number'
+                        placeholder='20'
+                        className='col-span-4'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className='col-span-4 col-start-3' />
+                  </FormItem>
+                )}
+              />
+
+              {/* ---------------- Age Range Slider ---------------- */}
+              <FormField
+                control={form.control}
+                name='ageRange'
+                render={({ field }) => (
+                  <FormItem className='grid grid-cols-6 items-center gap-x-4'>
+                    <FormLabel className='col-span-2 text-end'>
+                      Age Range
+                    </FormLabel>
+
+                    <div className='col-span-4 space-y-2'>
+                      <FormControl>
+                        <Slider
+                          min={0}
+                          max={18}
+                          step={1}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        />
+                      </FormControl>
+
+                      <div className='flex justify-between text-xs text-muted-foreground'>
+                        <span>{field.value[0]} yrs</span>
+                        <span>{field.value[1]} yrs</span>
+                      </div>
+                    </div>
+
+                    <FormMessage className='col-span-4 col-start-3' />
+                  </FormItem>
+                )}
+              />
             </form>
           </Form>
         </div>
+
         <DialogFooter>
           <Button type='submit' form='group-form'>
             Save changes

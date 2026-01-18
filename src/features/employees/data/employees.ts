@@ -7,9 +7,7 @@ export const employees = Array.from({ length: 500 }, () => {
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
 
-  // Generate parent names for emails
-  const parent1FirstName = faker.person.firstName()
-  const parent2FirstName = faker.person.firstName()
+
 
   return {
     id: faker.string.uuid(),
@@ -18,9 +16,8 @@ export const employees = Array.from({ length: 500 }, () => {
     employeename: faker.internet
       .username({ firstName, lastName })
       .toLocaleLowerCase(),
-    parent1: faker.internet.username({ firstName: parent1FirstName }).toLocaleLowerCase(),
-    parent2: faker.internet.username({ firstName: parent2FirstName }).toLocaleLowerCase(),
-    age: faker.number.int({ min: 6, max: 18 }),
+    title: faker.person.jobTitle().toLowerCase(),
+    phone: faker.phone.number(), 
     status: faker.helpers.arrayElement([
       'active',
       'inactive',

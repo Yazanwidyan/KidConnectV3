@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { group } from 'node:console'
 
 // Set a fixed seed for consistent data generation
 faker.seed(67890)
@@ -7,26 +8,33 @@ export const studentAttendance = Array.from({ length: 500 }, () => {
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
 
-  // Generate parent names for emails
-  const parent1FirstName = faker.person.firstName()
-  const parent2FirstName = faker.person.firstName()
 
   return {
     id: faker.string.uuid(),
     firstName,
     lastName,
-    registerId: `REG${faker.string.uuid()}`,
+    groupName: `REG${faker.string.uuid()}`,
     studentname: faker.internet
       .username({ firstName, lastName })
       .toLocaleLowerCase(),
-    parent1: faker.internet.username({ firstName: parent1FirstName }).toLocaleLowerCase(),
-    parent2: faker.internet.username({ firstName: parent2FirstName }).toLocaleLowerCase(),
-    age: faker.number.int({ min: 6, max: 18 }),
+    checkIn: faker.date
+     .between({ from: '2025-01-01T07:00:00', to: '2025-01-01T09:00:00' })
+     .toTimeString()
+     .slice(0, 5),
+
+    checkOut: faker.date
+     .between({ from: '2025-01-01T13:00:00', to: '2025-01-01T16:00:00' })
+     .toTimeString()
+     .slice(0, 5),
+    absent: faker.date
+     .between({ from: '2025-01-01T13:00:00', to: '2025-01-01T16:00:00' })
+     .toTimeString()
+     .slice(0, 5),
     status: faker.helpers.arrayElement([
-      'review',
-      'waitlist',
-      'enrolled',
-      'rejected',
+      'pending',
+      'checkIn',
+      'checkOut',
+      'absent',
     ]),
     role: faker.helpers.arrayElement([
       'superadmin',

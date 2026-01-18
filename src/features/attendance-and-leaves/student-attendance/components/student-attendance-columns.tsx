@@ -67,12 +67,12 @@ export const studentAttendanceColumns: ColumnDef<Student>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'parent1',
+    accessorKey: 'groupName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Parent 1' />
+      <DataTableColumnHeader column={column} title='Group Name' />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('parent1')}</LongText>
+      <LongText className='max-w-36'>{row.getValue('groupName')}</LongText>
     ),
     meta: {
       className: cn(
@@ -83,12 +83,12 @@ export const studentAttendanceColumns: ColumnDef<Student>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: 'parent2',
+    accessorKey: 'checkIn',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Parent 2' />
+      <DataTableColumnHeader column={column} title='	Check In' />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('parent2')}</LongText>
+      <LongText className='max-w-36'>{row.getValue('checkIn')}</LongText>
     ),
     meta: {
       className: cn(
@@ -99,12 +99,23 @@ export const studentAttendanceColumns: ColumnDef<Student>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: 'age',
+    accessorKey: 'checkOut',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Age' />
+      <DataTableColumnHeader column={column} title='Check Out' />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36 ps-3'>{row.getValue('age')}</LongText>
+      <LongText className='max-w-36 ps-3'>{row.getValue('checkOut')}</LongText>
+    ),
+    enableSorting: true,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'absent',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Marked Absent' />
+    ),
+    cell: ({ row }) => (
+      <LongText className='max-w-36 ps-3'>{row.getValue('absent')}</LongText>
     ),
     enableSorting: true,
     enableHiding: false,

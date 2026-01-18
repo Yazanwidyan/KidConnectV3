@@ -22,18 +22,21 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { groupTypes } from '../data/data'
-import { type Group } from '../data/schema'
+import { roles } from '../../../../employees/data/data'
 import { DataTableBulkActions } from './data-table-bulk-actions'
-import { groupsColumns as columns } from './groups-columns'
+import { GroupEmployeesColumns as columns } from './group-employees-columns'
 
 type DataTableProps = {
-  data: Group[]
+  data: any
   search: Record<string, unknown>
   navigate: NavigateFn
 }
 
-export function GroupsTable({ data, search, navigate }: DataTableProps) {
+export function GroupEmployeesTable({
+  data,
+  search,
+  navigate,
+}: DataTableProps) {
   // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -43,6 +46,7 @@ export function GroupsTable({ data, search, navigate }: DataTableProps) {
   // const [columnFilters, onColumnFiltersChange] = useState<ColumnFiltersState>([])
   // const [pagination, onPaginationChange] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
 
+  // Synced with URL states (keys/defaults mirror GroupEmployees route search schema)
   const {
     columnFilters,
     onColumnFiltersChange,
@@ -55,9 +59,10 @@ export function GroupsTable({ data, search, navigate }: DataTableProps) {
     pagination: { defaultPage: 1, defaultPageSize: 10 },
     globalFilter: { enabled: false },
     columnFilters: [
-      { columnId: 'name', searchKey: 'name', type: 'string' },
+      // employeename per-column text filter
+      { columnId: 'employeename', searchKey: 'employeename', type: 'string' },
       { columnId: 'status', searchKey: 'status', type: 'array' },
-      { columnId: 'groupType', searchKey: 'groupType', type: 'array' },
+      { columnId: 'role', searchKey: 'role', type: 'array' },
     ],
   })
 
@@ -99,8 +104,8 @@ export function GroupsTable({ data, search, navigate }: DataTableProps) {
     >
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter groups...'
-        searchKey='name'
+        searchPlaceholder='Filter GroupEmployees...'
+        searchKey='employeename'
         filters={[
           {
             columnId: 'status',
@@ -108,12 +113,14 @@ export function GroupsTable({ data, search, navigate }: DataTableProps) {
             options: [
               { label: 'Active', value: 'active' },
               { label: 'Inactive', value: 'inactive' },
+              { label: 'Invited', value: 'invited' },
+              { label: 'Suspended', value: 'suspended' },
             ],
           },
           {
-            columnId: 'groupType',
-            title: 'Type',
-            options: groupTypes.map((type) => ({ ...type })),
+            columnId: 'role',
+            title: 'Role',
+            options: roles.map((role) => ({ ...role })),
           },
         ]}
       />

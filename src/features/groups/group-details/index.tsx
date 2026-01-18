@@ -1,9 +1,4 @@
-import { ConfigDrawer } from '@/components/config-drawer'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { Link, getRouteApi, useParams } from '@tanstack/react-router'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,10 +16,19 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Link, getRouteApi, useParams } from '@tanstack/react-router'
-
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { employees } from '@/features/employees/data/employees'
 import { students } from '../../students/data/students'
 import { GroupsProvider } from '../components/groups-provider'
+import { GroupEmployeesDialogs } from './components/group-employees/group-employees-dialogs'
+import { GroupEmployeesPrimaryButtons } from './components/group-employees/group-employees-primary-buttons'
+import { GroupEmployeesProvider } from './components/group-employees/group-employees-provider'
+import { GroupEmployeesTable } from './components/group-employees/group-employees-table'
 import { GroupStudentsDialogs } from './components/group-students/group-students-dialogs'
 import { GroupStudentsPrimaryButtons } from './components/group-students/group-students-primary-buttons'
 import { GroupStudentsProvider } from './components/group-students/group-students-provider'
@@ -92,9 +96,7 @@ export function GroupDetails() {
             <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
               <TabsTrigger value='students'>Students</TabsTrigger>
-              <TabsTrigger value='schedule'>Schedule</TabsTrigger>
-              <TabsTrigger value='staff'>Staff</TabsTrigger>
-              <TabsTrigger value='notes'>Notes</TabsTrigger>
+              <TabsTrigger value='staff'>Employees</TabsTrigger>
             </TabsList>
           </div>
 
@@ -149,18 +151,6 @@ export function GroupDetails() {
                 </CardContent>
               </Card>
             </div>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Group Description</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className='text-muted-foreground'>
-                  This group focuses on early learning skills including
-                  communication, motor skills, creativity, and social behavior.
-                </p>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* ===== Students ===== */}
@@ -188,52 +178,29 @@ export function GroupDetails() {
             </GroupStudentsProvider>
           </TabsContent>
 
-          {/* ===== Schedule ===== */}
-          <TabsContent value='schedule'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Daily Schedule</CardTitle>
-                <CardDescription>Weekly activity plan</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className='list-disc space-y-1 ps-5'>
-                  <li>08:00 – Morning Circle</li>
-                  <li>09:00 – Art & Crafts</li>
-                  <li>10:30 – Snack Time</li>
-                  <li>11:00 – Outdoor Play</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
           {/* ===== Staff ===== */}
           <TabsContent value='staff'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Assigned Staff</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className='list-disc space-y-1 ps-5'>
-                  <li>Ms. Sarah – Lead Teacher</li>
-                  <li>Mr. Ahmed – Assistant</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* ===== Notes ===== */}
-          <TabsContent value='notes'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Internal Notes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className='text-muted-foreground'>
-                  Group shows strong engagement during creative activities.
-                  Needs closer supervision during outdoor play.
-                </p>
-              </CardContent>
-            </Card>
+            <GroupEmployeesProvider>
+              <div className='flex flex-1 flex-col gap-4 sm:gap-6'>
+                <div className='flex flex-wrap items-end justify-between gap-2'>
+                  <div>
+                    <h2 className='text-2xl font-bold tracking-tight'>
+                      Employees List
+                    </h2>
+                    <p className='text-muted-foreground'>
+                      Manage your employees and their roles here.
+                    </p>
+                  </div>
+                  <GroupEmployeesPrimaryButtons />
+                </div>
+                <GroupEmployeesTable
+                  data={employees}
+                  search={search}
+                  navigate={navigate}
+                />
+              </div>
+              <GroupEmployeesDialogs />
+            </GroupEmployeesProvider>
           </TabsContent>
         </Tabs>
       </Main>

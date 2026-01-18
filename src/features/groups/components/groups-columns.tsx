@@ -2,7 +2,6 @@ import { Link } from '@tanstack/react-router'
 import { type ColumnDef } from '@tanstack/react-table'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { LongText } from '@/components/long-text'
 import { callTypes } from '../data/data'
@@ -10,33 +9,6 @@ import { type Group } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
 export const groupsColumns: ColumnDef<Group>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-        className='translate-y-[2px]'
-      />
-    ),
-    meta: {
-      className: cn('max-md:sticky start-0 z-10 rounded-tl-[inherit]'),
-    },
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-        className='translate-y-[2px]'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: 'name',
     header: ({ column }) => (
@@ -78,7 +50,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
       return (
         <div className='flex items-center gap-2'>
           <span
-            className='h-4 w-4 rounded-full border'
+            className='h-4 w-4 rounded-xs border'
             style={{ backgroundColor: color }}
           />
         </div>
