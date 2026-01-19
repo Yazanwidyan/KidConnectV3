@@ -24,7 +24,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { admissionTypes } from '../data/data'
-import { type Admission } from '../data/schema'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required.'),
@@ -35,7 +34,7 @@ const formSchema = z.object({
 type AdmissionForm = z.infer<typeof formSchema>
 
 type AdmissionActionDialogProps = {
-  currentRow?: Admission
+  currentRow?: any
   open: boolean
   onOpenChange: (open: boolean) => void
 }

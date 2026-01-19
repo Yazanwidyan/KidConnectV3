@@ -10,7 +10,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { DataTableBulkActions as BulkActionsToolbar } from '@/components/data-table'
-import { type Admission } from '../data/schema'
 import { AdmissionsMultiDeleteDialog } from './admissions-multi-delete-dialog'
 
 type DataTableBulkActionsProps<TData> = {
@@ -24,9 +23,7 @@ export function DataTableBulkActions<TData>({
   const selectedRows = table.getFilteredSelectedRowModel().rows
 
   const handleBulkStatusChange = (status: 'active' | 'inactive') => {
-    const selectedAdmissions = selectedRows.map(
-      (row) => row.original as Admission
-    )
+    const selectedAdmissions = selectedRows.map((row) => row.original as any)
     toast.promise(sleep(2000), {
       loading: `${status === 'active' ? 'Activating' : 'Deactivating'} admissions...`,
       success: () => {
@@ -39,9 +36,7 @@ export function DataTableBulkActions<TData>({
   }
 
   const handleBulkInvite = () => {
-    const selectedAdmissions = selectedRows.map(
-      (row) => row.original as Admission
-    )
+    const selectedAdmissions = selectedRows.map((row) => row.original as any)
     toast.promise(sleep(2000), {
       loading: 'Inviting admissions...',
       success: () => {

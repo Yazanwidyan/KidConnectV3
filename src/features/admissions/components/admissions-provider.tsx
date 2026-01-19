@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
-import { type Admission } from '../data/schema'
 
-type AdmissionsDialogType = 'add' | 'edit' | 'delete'
+export type AdmissionsDialogType =
+  | 'add'
+  | 'edit'
+  | 'delete'
+  | 'invite'
+  | 'moveToWaitlist'
+  | 'approveEnrollment'
+  | 'rejectApplication'
 
 type AdmissionsContextType = {
   open: AdmissionsDialogType | null
-  setOpen: (str: AdmissionsDialogType | null) => void
-  currentRow: Admission | null
-  setCurrentRow: React.Dispatch<React.SetStateAction<Admission | null>>
+  setOpen: (value: AdmissionsDialogType | null) => void
+  currentRow: any | null
+  setCurrentRow: React.Dispatch<React.SetStateAction<any | null>>
 }
 
 const AdmissionsContext = React.createContext<AdmissionsContextType | null>(
@@ -21,12 +27,14 @@ export function AdmissionsProvider({
   children: React.ReactNode
 }) {
   const [open, setOpen] = useDialogState<AdmissionsDialogType>(null)
-  const [currentRow, setCurrentRow] = useState<Admission | null>(null)
+  const [currentRow, setCurrentRow] = useState<any | null>(null)
 
   return (
-    <AdmissionsContext value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <AdmissionsContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
-    </AdmissionsContext>
+    </AdmissionsContext.Provider>
   )
 }
 
@@ -35,7 +43,7 @@ export const useAdmissions = () => {
   const admissionsContext = React.useContext(AdmissionsContext)
 
   if (!admissionsContext) {
-    throw new Error('useAdmissions has to be used within <AdmissionsContext>')
+    throw new Error('useAdmissions must be used within <AdmissionsProvider>')
   }
 
   return admissionsContext

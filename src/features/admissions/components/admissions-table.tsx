@@ -106,8 +106,10 @@ export function AdmissionsTable({ data, search, navigate }: DataTableProps) {
             columnId: 'status',
             title: 'Status',
             options: [
-              { label: 'Active', value: 'active' },
-              { label: 'Inactive', value: 'inactive' },
+              { label: 'Review', value: 'review' },
+              { label: 'Waitlist', value: 'waitlist' },
+              { label: 'Enrolled', value: 'enrolled' },
+              { label: 'Rejected', value: 'rejected' },
             ],
           },
           {
