@@ -67,6 +67,22 @@ export const studentsColumns: ColumnDef<Student>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'groupName',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Group Name' />
+    ),
+    cell: ({ row }) => (
+      <LongText className='max-w-36'>{row.getValue('groupName')}</LongText>
+    ),
+    meta: {
+      className: cn(
+        'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)]',
+        'ps-0.5 max-md:sticky start-6 @4xl/content:table-cell @4xl/content:drop-shadow-none'
+      ),
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: 'parent1',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Parent 1' />
@@ -130,34 +146,6 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     enableHiding: false,
     enableSorting: false,
-  },
-  {
-    accessorKey: 'role',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Role' />
-    ),
-    cell: ({ row }) => {
-      const { role } = row.original
-      const studentType = roles.find(({ value }) => value === role)
-
-      if (!studentType) {
-        return null
-      }
-
-      return (
-        <div className='flex items-center gap-x-2'>
-          {studentType.icon && (
-            <studentType.icon size={16} className='text-muted-foreground' />
-          )}
-          <span className='text-sm capitalize'>{row.getValue('role')}</span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-    enableSorting: false,
-    enableHiding: false,
   },
   {
     id: 'actions',

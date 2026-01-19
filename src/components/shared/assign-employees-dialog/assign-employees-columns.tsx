@@ -80,17 +80,7 @@ export const AssignEmployeesColumns: ColumnDef<any>[] = [
     },
     enableSorting: false,
   },
-  {
-    accessorKey: 'phone',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Phone' />
-    ),
-    cell: ({ row }) => (
-      <LongText className='max-w-36 ps-3'>{row.getValue('phone')}</LongText>
-    ),
-    enableSorting: true,
-    enableHiding: false,
-  },
+
   {
     accessorKey: 'status',
     header: ({ column }) => (

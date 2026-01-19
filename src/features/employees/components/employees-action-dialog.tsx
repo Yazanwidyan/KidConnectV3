@@ -25,76 +25,72 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { type Employee } from '../data/schema'
 
 /* -------------------------------------------------------------------------- */
-/*                                   Schema                                   */
+/*                                   Schemas                                  */
 /* -------------------------------------------------------------------------- */
-
-const dynamicSectionSchema = z.object({
-  label: z.string().min(1, 'required'),
-  value: z.string().min(1, 'required'),
-})
-
-const parentSchema = z.object({
-  parentName: z.string().min(1, 'required'),
-  parentPhone: z.string().min(1, 'required'),
-  parentEmail: z.string().email('Invalid email'),
-  parentRelation: z.string().min(1, 'required'),
-})
 
 const emergencyContactSchema = z.object({
-  name: z.string().min(1, 'required'),
-  phone: z.string().min(1, 'required'),
-  relation: z.string().min(1, 'required'),
-})
-
-const authorizedPickupSchema = z.object({
-  name: z.string().min(1, 'required'),
-  phone: z.string().min(1, 'required'),
-  id: z.string().min(1, 'required'),
-  relation: z.string().min(1, 'required'),
+  name: z.string().min(1, 'Required'),
+  relation: z.string().min(1, 'Required'),
+  phone: z.string().min(1, 'Required'),
 })
 
 const formSchema = z.object({
-  /* ---------------- Personal Information ---------------- */
-  employeePhoto: z.any().optional(),
+  // Personal Information
+  firstName: z.string().min(1, 'Required'),
+  middleName: z.string().optional(),
+  lastName: z.string().min(1, 'Required'),
+  nativeName: z.string().optional(),
+  employeeId: z.string().min(1, 'Required'),
+  nationality: z.string().min(1, 'Required'),
+  email: z.string().email('Invalid email'),
+  phone: z.string().min(1, 'Required'),
+  governmentId: z.string().min(1, 'Required'),
+  dateOfBirth: z.string().min(1, 'Required'), // mm/dd/yyyy format validation could be added
+  passportNumber: z.string().optional(),
+  maritalStatus: z
+    .enum(['Single', 'Married', 'Divorced', 'Widowed'])
+    .optional(),
+  gender: z.enum(['Male', 'Female', 'Other']),
+  address: z.string().min(1, 'Required'),
+  notes: z.string().optional(),
 
-  firstName: z.string().min(1, 'required'),
-  secondName: z.string().min(1, 'required'),
-  thirdName: z.string().min(1, 'required'),
-  lastName: z.string().min(1, 'required'),
+  // Employment Information
+  employeeTitle: z.string().min(1, 'Required'),
+  role: z.enum(['Teacher', 'Admin', 'Support', 'Other']),
 
-  governmentId: z.string().min(1, 'required'),
-  nationality: z.string().min(1, 'required'),
-  address: z.string().min(1, 'required'),
+  // Contract Details
+  contractType: z.enum(['Full-time', 'Part-time', 'Contract']),
+  monthlySalary: z.number().min(0, 'Invalid salary'),
+  currency: z.enum(['USD', 'EUR', 'GBP', 'JPY', 'Other']),
+  residentStartDate: z.string().optional(),
+  probationEndDate: z.string().optional(),
+  contractEndDate: z.string().optional(),
+  lastDayOfWork: z.string().optional(),
+  contractNotes: z.string().optional(),
 
-  firstDayAtSchool: z.string().min(1, 'required'),
-  dateOfBirth: z.string().min(1, 'required'),
+  // Medical Information
+  allergies: z.string().optional(),
+  medications: z.string().optional(),
 
-  gender: z.enum(['male', 'female']),
-  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-  religion: z.string().min(1, 'required'),
+  // Emergency Contacts (dynamic array)
+  emergencyContacts: z
+    .array(emergencyContactSchema)
+    .min(1, 'Add at least one emergency contact'),
 
-  allergies: z.string().min(1, 'required'),
-  medications: z.string().min(1, 'required'),
-  nurseryNotes: z.string().min(1, 'required'),
-  parentNotes: z.string().min(1, 'required'),
-  groupName: z.string().min(1, 'required'),
+  // Roles & Groups - simple arrays of strings for demo (could be complex objects)
+  roles: z.array(z.string()),
+  groups: z.array(z.string()),
 
-  parents: z.array(parentSchema).min(1, 'required'),
-  emergencyContacts: z.array(emergencyContactSchema).min(1, 'required'),
-  authorizedPickups: z.array(authorizedPickupSchema).min(1, 'required'),
-
-  attachments: z.any().optional(),
-  dynamicSections: z.array(dynamicSectionSchema),
-
-  isEdit: z.boolean(),
+  // Documents (files) - optional
+  documents: z.any().optional(),
 })
+
 type FormValues = z.infer<typeof formSchema>
 
 type Props = {
-  currentRow?: Employee
+  currentEmployee?: Partial<FormValues>
   open: boolean
   onOpenChange: (open: boolean) => void
 }
@@ -104,55 +100,56 @@ type Props = {
 /* -------------------------------------------------------------------------- */
 
 export function EmployeesActionDialog({
-  currentRow,
+  currentEmployee,
   open,
   onOpenChange,
 }: Props) {
-  const isEdit = !!currentRow
+  const isEdit = !!currentEmployee
   const [step, setStep] = useState(0)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      employeePhoto: undefined,
+      firstName: currentEmployee?.firstName ?? '',
+      middleName: currentEmployee?.middleName ?? '',
+      lastName: currentEmployee?.lastName ?? '',
+      nativeName: currentEmployee?.nativeName ?? '',
+      employeeId: currentEmployee?.employeeId ?? '',
+      nationality: currentEmployee?.nationality ?? '',
+      email: currentEmployee?.email ?? '',
+      phone: currentEmployee?.phone ?? '',
+      governmentId: currentEmployee?.governmentId ?? '',
+      dateOfBirth: currentEmployee?.dateOfBirth ?? '',
+      passportNumber: currentEmployee?.passportNumber ?? '',
+      maritalStatus: currentEmployee?.maritalStatus ?? 'Single',
+      gender: currentEmployee?.gender ?? 'Male',
+      address: currentEmployee?.address ?? '',
+      notes: currentEmployee?.notes ?? '',
 
-      firstName: '',
-      secondName: '',
-      thirdName: '',
-      lastName: '',
-      governmentId: '',
-      nationality: '',
-      address: '',
-      firstDayAtSchool: '',
-      dateOfBirth: '',
-      gender: 'male',
-      bloodGroup: 'O+',
-      religion: '',
-      allergies: '',
-      medications: '',
-      nurseryNotes: '',
-      parentNotes: '',
-      groupName: '',
-      parents: [
-        {
-          parentName: '',
-          parentPhone: '',
-          parentEmail: '',
-          parentRelation: '',
-        },
+      employeeTitle: currentEmployee?.employeeTitle ?? '',
+      role: currentEmployee?.role ?? 'Teacher',
+
+      contractType: currentEmployee?.contractType ?? 'Full-time',
+      monthlySalary: currentEmployee?.monthlySalary ?? 0,
+      currency: currentEmployee?.currency ?? 'USD',
+      residentStartDate: currentEmployee?.residentStartDate ?? '',
+      probationEndDate: currentEmployee?.probationEndDate ?? '',
+      contractEndDate: currentEmployee?.contractEndDate ?? '',
+      lastDayOfWork: currentEmployee?.lastDayOfWork ?? '',
+      contractNotes: currentEmployee?.contractNotes ?? '',
+
+      allergies: currentEmployee?.allergies ?? '',
+      medications: currentEmployee?.medications ?? '',
+
+      emergencyContacts: currentEmployee?.emergencyContacts ?? [
+        { name: '', relation: '', phone: '' },
       ],
-      emergencyContacts: [{ name: '', phone: '', relation: '' }],
-      authorizedPickups: [{ name: '', phone: '', id: '', relation: '' }],
 
-      attachments: undefined,
-      dynamicSections: [],
-      isEdit,
+      roles: currentEmployee?.roles ?? [],
+      groups: currentEmployee?.groups ?? [],
+
+      documents: undefined,
     },
-  })
-
-  const parentsFieldArray = useFieldArray({
-    control: form.control,
-    name: 'parents',
   })
 
   const emergencyContactsFieldArray = useFieldArray({
@@ -160,21 +157,14 @@ export function EmployeesActionDialog({
     name: 'emergencyContacts',
   })
 
-  const authorizedPickupsFieldArray = useFieldArray({
-    control: form.control,
-    name: 'authorizedPickups',
-  })
-
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: 'dynamicSections',
-  })
-
   const steps = [
     'Personal Information',
-    'Additional Information',
-    'Attachments',
-    'Dynamic Sections',
+    'Employment Information',
+    'Contract Details',
+    'Medical Information',
+    'Emergency Contacts',
+    'Roles & Groups',
+    'Documents',
   ]
 
   const onSubmit = (values: FormValues) => {
@@ -195,66 +185,244 @@ export function EmployeesActionDialog({
           <DialogDescription>{steps[step]}</DialogDescription>
         </DialogHeader>
 
-        {/* Progress */}
+        {/* Progress Bar */}
         <div className='mb-4 flex gap-2'>
           {steps.map((_, i) => (
             <div
               key={i}
-              className={`h-2 flex-1 rounded ${
-                i <= step ? 'bg-primary' : 'bg-muted'
-              }`}
+              className={`h-2 flex-1 rounded ${i <= step ? 'bg-primary' : 'bg-muted'}`}
             />
           ))}
         </div>
 
         <Form {...form}>
-          <form
-            id='employee-form'
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6'
-          >
+          <form>
+            {/* Step 0: Personal Information */}
             {step === 0 && (
               <div className='grid grid-cols-3 gap-4'>
-                {/* Photo */}
+                {[
+                  ['firstName', 'First Name'],
+                  ['middleName', 'Middle Name'],
+                  ['lastName', 'Last Name'],
+                  ['employeeId', 'Employee ID'],
+                  ['email', 'Email'],
+                  ['phone', 'Phone'],
+                  ['governmentId', 'Government ID'],
+                  ['dateOfBirth', 'Date of Birth'],
+                  ['maritalStatus', 'Marital Status'],
+                  ['gender', 'Gender'],
+                  ['address', 'Address'],
+                  ['medications', 'Medications'],
+                  ['allergies', 'Allergies'],
+                ].map(([name, label]) => {
+                  if (name === 'maritalStatus') {
+                    return (
+                      <FormField
+                        key={name}
+                        control={form.control}
+                        name={name as keyof FormValues}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{label}</FormLabel>
+                            <SelectDropdown
+                              className='w-full'
+                              items={[
+                                { label: 'Single', value: 'Single' },
+                                { label: 'Married', value: 'Married' },
+                                { label: 'Divorced', value: 'Divorced' },
+                                { label: 'Widowed', value: 'Widowed' },
+                              ]}
+                              defaultValue={field.value}
+                              onValueChange={field.onChange}
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )
+                  }
+                  if (name === 'gender') {
+                    return (
+                      <FormField
+                        key={name}
+                        control={form.control}
+                        name={name as keyof FormValues}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{label}</FormLabel>
+                            <SelectDropdown
+                              className='w-full'
+                              items={[
+                                { label: 'Male', value: 'Male' },
+                                { label: 'Female', value: 'Female' },
+                                { label: 'Other', value: 'Other' },
+                              ]}
+                              defaultValue={field.value}
+                              onValueChange={field.onChange}
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )
+                  }
+                  if (name === 'dateOfBirth') {
+                    return (
+                      <FormField
+                        key={name}
+                        control={form.control}
+                        name={name as keyof FormValues}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{label}</FormLabel>
+                            <FormControl>
+                              <Input type='date' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )
+                  }
+                  return (
+                    <FormField
+                      key={name}
+                      control={form.control}
+                      name={name as keyof FormValues}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{label}</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Step 1: Employment Information */}
+            {step === 1 && (
+              <div className='grid grid-cols-2 gap-4'>
                 <FormField
                   control={form.control}
-                  name='employeePhoto'
+                  name='employeeTitle'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Employee Photo</FormLabel>
+                      <FormLabel>Employee Title</FormLabel>
                       <FormControl>
-                        <Input
-                          type='file'
-                          accept='image/*'
-                          onChange={(e) => field.onChange(e.target.files?.[0])}
-                        />
+                        <Input {...field} />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='role'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <SelectDropdown
+                        className='w-full'
+                        items={[
+                          { label: 'Teacher', value: 'Teacher' },
+                          { label: 'Admin', value: 'Admin' },
+                          { label: 'Support', value: 'Support' },
+                          { label: 'Other', value: 'Other' },
+                        ]}
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
+            {/* Step 2: Contract Details */}
+            {step === 2 && (
+              <div className='grid grid-cols-2 gap-4'>
+                <FormField
+                  control={form.control}
+                  name='contractType'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contract Type</FormLabel>
+                      <SelectDropdown
+                        className='w-full'
+                        items={[
+                          { label: 'Full-time', value: 'Full-time' },
+                          { label: 'Part-time', value: 'Part-time' },
+                          { label: 'Contract', value: 'Contract' },
+                        ]}
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='monthlySalary'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Monthly Salary</FormLabel>
+                      <FormControl>
+                        <Input type='number' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='currency'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Currency</FormLabel>
+                      <SelectDropdown
+                        className='w-full'
+                        items={[
+                          { label: 'USD', value: 'USD' },
+                          { label: 'EUR', value: 'EUR' },
+                          { label: 'GBP', value: 'GBP' },
+                          { label: 'JPY', value: 'JPY' },
+                          { label: 'Other', value: 'Other' },
+                        ]}
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
 
                 {[
-                  ['firstName', 'First Name'],
-                  ['secondName', 'Second Name'],
-                  ['thirdName', 'Third Name'],
-                  ['lastName', 'Last Name'],
-                  ['governmentId', 'Government ID'],
-                  ['nationality', 'Nationality'],
-                  ['address', 'Address'],
+                  ['residentStartDate', 'Resident Start Date'],
+                  ['probationEndDate', 'Probation End Date'],
+                  ['contractEndDate', 'Contract End Date'],
+                  ['lastDayOfWork', 'Last Day of Work'],
                 ].map(([name, label]) => (
                   <FormField
                     key={name}
                     control={form.control}
-                    name={name}
+                    name={name as keyof FormValues}
                     render={({ field }) => (
                       <FormItem>
-                        <div className='flex items-center gap-1'>
-                          <FormLabel>{label}</FormLabel>
-                          <FormMessage />
-                        </div>
+                        <FormLabel>{label}</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input type='date' {...field} />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -262,215 +430,81 @@ export function EmployeesActionDialog({
 
                 <FormField
                   control={form.control}
-                  name='firstDayAtSchool'
+                  name='contractNotes'
                   render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>First Day at School</FormLabel>
-                        <FormMessage />
-                      </div>
+                    <FormItem className='col-span-2'>
+                      <FormLabel>Contract Notes</FormLabel>
                       <FormControl>
-                        <Input type='date' {...field} />
+                        <textarea
+                          {...field}
+                          className='w-full rounded-md border p-2'
+                        />
                       </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='dateOfBirth'
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Date of Birth</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <Input type='date' {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='gender'
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Gender</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <SelectDropdown
-                        className='w-full'
-                        items={[
-                          { label: 'Male', value: 'male' },
-                          { label: 'Female', value: 'female' },
-                        ]}
-                        defaultValue={field.value}
-                        onValueChange={field.onChange}
-                      />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='bloodGroup'
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Blood Group</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <SelectDropdown
-                        className='w-full'
-                        items={[
-                          'A+',
-                          'A-',
-                          'B+',
-                          'B-',
-                          'AB+',
-                          'AB-',
-                          'O+',
-                          'O-',
-                        ].map((v) => ({ label: v, value: v }))}
-                        defaultValue={field.value}
-                        onValueChange={field.onChange}
-                      />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='religion'
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Religion</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='allergies'
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Allergies</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <Input {...field} placeholder='e.g. Peanuts, Milk' />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='medications'
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Medications</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <Input {...field} placeholder='If any' />
-                      </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
             )}
-            {step === 1 && (
-              <div className='grid grid-cols-2 gap-4'>
-                <FormField
-                  control={form.control}
-                  name='groupName'
-                  render={({ field }) => (
-                    <FormItem className='col-span-2'>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Group Name</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
 
-                <FormField
-                  control={form.control}
-                  name='nurseryNotes'
-                  render={({ field }) => (
-                    <FormItem className='col-span-2'>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Nursery Notes</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <textarea
-                          {...field}
-                          className='min-h-[90px] w-full rounded-md border px-3 py-2'
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='parentNotes'
-                  render={({ field }) => (
-                    <FormItem className='col-span-2'>
-                      <div className='flex items-center gap-1'>
-                        <FormLabel>Parent Notes</FormLabel>
-                        <FormMessage />
-                      </div>
-                      <FormControl>
-                        <textarea
-                          {...field}
-                          className='min-h-[90px] w-full rounded-md border px-3 py-2'
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
-            {step === 2 && (
+            {/* Step 3: Emergency Contacts */}
+            {step === 3 && (
               <div className='space-y-4'>
-                {fields.map((f, i) => (
-                  <div key={f.id} className='space-y-2 rounded border p-4'>
+                {emergencyContactsFieldArray.fields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className='grid grid-cols-[1fr_1fr_1fr_auto] items-end gap-4 rounded-lg border p-4'
+                  >
                     <FormField
                       control={form.control}
-                      name={`dynamicSections.${i}.label`}
+                      name={`emergencyContacts.${index}.name`}
                       render={({ field }) => (
-                        <Input placeholder='Label' {...field} />
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
                     />
+
                     <FormField
                       control={form.control}
-                      name={`dynamicSections.${i}.value`}
+                      name={`emergencyContacts.${index}.relation`}
                       render={({ field }) => (
-                        <Input placeholder='Value' {...field} />
+                        <FormItem>
+                          <FormLabel>Relation</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
                     />
+
+                    <FormField
+                      control={form.control}
+                      name={`emergencyContacts.${index}.phone`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <Button
                       type='button'
-                      variant='destructive'
-                      onClick={() => remove(i)}
+                      variant='ghost'
+                      size='icon'
+                      className='h-9 w-9 text-destructive'
+                      onClick={() => emergencyContactsFieldArray.remove(index)}
                     >
-                      Remove
+                      <Trash2 className='h-4 w-4' />
                     </Button>
                   </div>
                 ))}
@@ -478,305 +512,155 @@ export function EmployeesActionDialog({
                 <Button
                   type='button'
                   variant='outline'
-                  onClick={() => append({ label: '', value: '' })}
+                  onClick={() =>
+                    emergencyContactsFieldArray.append({
+                      name: '',
+                      relation: '',
+                      phone: '',
+                    })
+                  }
                 >
-                  Add Section
+                  Add Emergency Contact
                 </Button>
               </div>
             )}
-            {step === 3 && (
-              <div className='space-y-8'>
-                {/* ===================== Parents ===================== */}
-                <div className='space-y-4'>
-                  <h3 className='text-lg font-semibold'>Parents</h3>
 
-                  {parentsFieldArray.fields.map((field, index) => (
-                    <div
-                      key={field.id}
-                      className='grid grid-cols-[1fr_1fr_1fr_1fr_auto] items-end gap-4 rounded-lg border p-4'
-                    >
-                      <FormField
-                        control={form.control}
-                        name={`parents.${index}.parentName`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Parent Name</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
+            {/* Step 4: Roles & Groups */}
+            {step === 4 && (
+              <div className='space-y-6'>
+                <FormField
+                  control={form.control}
+                  name='roles'
+                  render={({ field }) => {
+                    const roles = field.value || []
+                    const [input, setInput] = useState('')
 
-                      <FormField
-                        control={form.control}
-                        name={`parents.${index}.parentPhone`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Phone</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`parents.${index}.parentEmail`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Email</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`parents.${index}.parentRelation`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Relation</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} placeholder='Father / Mother' />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* REMOVE ICON */}
-                      <Button
-                        type='button'
-                        variant='ghost'
-                        size='icon'
-                        className='h-9 w-9 text-destructive'
-                        onClick={() => parentsFieldArray.remove(index)}
-                      >
-                        <Trash2 className='h-4 w-4' />
-                      </Button>
-                    </div>
-                  ))}
-
-                  <Button
-                    type='button'
-                    variant='outline'
-                    onClick={() =>
-                      parentsFieldArray.append({
-                        parentName: '',
-                        parentPhone: '',
-                        parentEmail: '',
-                        parentRelation: '',
-                      })
+                    const addRole = () => {
+                      if (input.trim() && !roles.includes(input.trim())) {
+                        field.onChange([...roles, input.trim()])
+                        setInput('')
+                      }
                     }
-                  >
-                    Add Parent
-                  </Button>
-                </div>
-
-                {/* ================= Emergency Contacts ================= */}
-                <div className='space-y-4'>
-                  <h3 className='text-lg font-semibold'>Emergency Contacts</h3>
-
-                  {emergencyContactsFieldArray.fields.map((field, index) => (
-                    <div
-                      key={field.id}
-                      className='grid grid-cols-[1fr_1fr_1fr_1fr_auto] items-end gap-4 rounded-lg border p-4'
-                    >
-                      <FormField
-                        control={form.control}
-                        name={`emergencyContacts.${index}.name`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Name</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`emergencyContacts.${index}.phone`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Phone</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`emergencyContacts.${index}.relation`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Relation</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <Button
-                        type='button'
-                        variant='ghost'
-                        size='icon'
-                        className='h-9 w-9 text-destructive'
-                        onClick={() =>
-                          emergencyContactsFieldArray.remove(index)
-                        }
-                      >
-                        <Trash2 className='h-4 w-4' />
-                      </Button>
-                    </div>
-                  ))}
-
-                  <Button
-                    type='button'
-                    variant='outline'
-                    onClick={() =>
-                      emergencyContactsFieldArray.append({
-                        name: '',
-                        phone: '',
-                        relation: '',
-                      })
+                    const removeRole = (role: string) => {
+                      field.onChange(roles.filter((r: string) => r !== role))
                     }
-                  >
-                    Add Emergency Contact
-                  </Button>
-                </div>
 
-                {/* ================= Authorized Pickups ================= */}
-                <div className='space-y-4'>
-                  <h3 className='text-lg font-semibold'>Authorized Pickups</h3>
-
-                  {authorizedPickupsFieldArray.fields.map((field, index) => (
-                    <div
-                      key={field.id}
-                      className='grid grid-cols-[1fr_1fr_1fr_1fr_auto] items-end gap-4 rounded-lg border p-4'
-                    >
-                      <FormField
-                        control={form.control}
-                        name={`authorizedPickups.${index}.name`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Name</FormLabel>
-                              <FormMessage />
+                    return (
+                      <FormItem>
+                        <FormLabel>Roles</FormLabel>
+                        <div className='mb-2 flex gap-2'>
+                          <Input
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder='Add Role'
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault()
+                                addRole()
+                              }
+                            }}
+                          />
+                          <Button onClick={addRole}>Add</Button>
+                        </div>
+                        <div className='flex flex-wrap gap-2'>
+                          {roles.map((role: string) => (
+                            <div
+                              key={role}
+                              className='flex items-center gap-1 rounded bg-primary px-3 py-1 text-white'
+                            >
+                              {role}
+                              <button
+                                type='button'
+                                onClick={() => removeRole(role)}
+                                className='ml-1 font-bold'
+                              >
+                                ×
+                              </button>
                             </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                          ))}
+                        </div>
+                      </FormItem>
+                    )
+                  }}
+                />
 
-                      <FormField
-                        control={form.control}
-                        name={`authorizedPickups.${index}.phone`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Phone</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                <FormField
+                  control={form.control}
+                  name='groups'
+                  render={({ field }) => {
+                    const groups = field.value || []
+                    const [input, setInput] = useState('')
 
-                      <FormField
-                        control={form.control}
-                        name={`authorizedPickups.${index}.id`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>ID</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`authorizedPickups.${index}.relation`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <div className='flex items-center gap-1'>
-                              <FormLabel>Relation</FormLabel>
-                              <FormMessage />
-                            </div>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <Button
-                        type='button'
-                        variant='ghost'
-                        size='icon'
-                        className='h-9 w-9 text-destructive'
-                        onClick={() =>
-                          authorizedPickupsFieldArray.remove(index)
-                        }
-                      >
-                        <Trash2 className='h-4 w-4' />
-                      </Button>
-                    </div>
-                  ))}
-
-                  <Button
-                    type='button'
-                    variant='outline'
-                    onClick={() =>
-                      authorizedPickupsFieldArray.append({
-                        name: '',
-                        phone: '',
-                        id: '',
-                        relation: '',
-                      })
+                    const addGroup = () => {
+                      if (input.trim() && !groups.includes(input.trim())) {
+                        field.onChange([...groups, input.trim()])
+                        setInput('')
+                      }
                     }
-                  >
-                    Add Authorized Pickup
-                  </Button>
-                </div>
+                    const removeGroup = (group: string) => {
+                      field.onChange(groups.filter((g: string) => g !== group))
+                    }
+
+                    return (
+                      <FormItem>
+                        <FormLabel>Groups</FormLabel>
+                        <div className='mb-2 flex gap-2'>
+                          <Input
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder='Add Group'
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault()
+                                addGroup()
+                              }
+                            }}
+                          />
+                          <Button onClick={addGroup}>Add</Button>
+                        </div>
+                        <div className='flex flex-wrap gap-2'>
+                          {groups.map((group: string) => (
+                            <div
+                              key={group}
+                              className='flex items-center gap-1 rounded bg-secondary px-3 py-1 text-white'
+                            >
+                              {group}
+                              <button
+                                type='button'
+                                onClick={() => removeGroup(group)}
+                                className='ml-1 font-bold'
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </FormItem>
+                    )
+                  }}
+                />
               </div>
+            )}
+
+            {/* Step 5: Documents */}
+            {step === 5 && (
+              <FormField
+                control={form.control}
+                name='documents'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Add Documents</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='file'
+                        multiple
+                        onChange={(e) => field.onChange(e.target.files)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
           </form>
         </Form>

@@ -18,6 +18,7 @@ export const employees = Array.from({ length: 500 }, () => {
       .toLocaleLowerCase(),
     title: faker.person.jobTitle().toLowerCase(),
     phone: faker.phone.number(), 
+    groupName: `REG${faker.string.uuid()}`,
     status: faker.helpers.arrayElement([
       'active',
       'inactive',

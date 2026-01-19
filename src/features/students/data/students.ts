@@ -18,6 +18,7 @@ export const students = Array.from({ length: 500 }, () => {
     studentname: faker.internet
       .username({ firstName, lastName })
       .toLocaleLowerCase(),
+    groupName: `REG${faker.string.uuid()}`,
     parent1: faker.internet.username({ firstName: parent1FirstName }).toLocaleLowerCase(),
     parent2: faker.internet.username({ firstName: parent2FirstName }).toLocaleLowerCase(),
     age: faker.number.int({ min: 6, max: 18 }),

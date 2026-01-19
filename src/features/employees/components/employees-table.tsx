@@ -105,6 +105,19 @@ export function EmployeesTable({ data, search, navigate }: DataTableProps) {
         searchKey='employeename'
         filters={[
           {
+            columnId: 'groupName',
+            title: 'Group',
+            options: [
+              { label: 'Tiny Tigers', value: 'TinyTigers' },
+              { label: 'Happy Hippos', value: 'HappyHippos' },
+            ],
+          },
+          {
+            columnId: 'role',
+            title: 'Role',
+            options: roles.map((role) => ({ ...role })),
+          },
+          {
             columnId: 'status',
             title: 'Status',
             options: [
@@ -113,11 +126,6 @@ export function EmployeesTable({ data, search, navigate }: DataTableProps) {
               { label: 'Invited', value: 'invited' },
               { label: 'Suspended', value: 'suspended' },
             ],
-          },
-          {
-            columnId: 'role',
-            title: 'Role',
-            options: roles.map((role) => ({ ...role })),
           },
         ]}
       />

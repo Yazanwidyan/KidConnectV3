@@ -59,7 +59,6 @@ export function StudentsTable({ data, search, navigate }: DataTableProps) {
       // studentname per-column text filter
       { columnId: 'studentname', searchKey: 'studentname', type: 'string' },
       { columnId: 'status', searchKey: 'status', type: 'array' },
-      { columnId: 'role', searchKey: 'role', type: 'array' },
     ],
   })
 
@@ -105,6 +104,14 @@ export function StudentsTable({ data, search, navigate }: DataTableProps) {
         searchKey='studentname'
         filters={[
           {
+            columnId: 'groupName',
+            title: 'Group',
+            options: [
+              { label: 'Tiny Tigers', value: 'TinyTigers' },
+              { label: 'Happy Hippos', value: 'HappyHippos' },
+            ],
+          },
+          {
             columnId: 'status',
             title: 'Status',
             options: [
@@ -113,11 +120,6 @@ export function StudentsTable({ data, search, navigate }: DataTableProps) {
               { label: 'Invited', value: 'invited' },
               { label: 'Suspended', value: 'suspended' },
             ],
-          },
-          {
-            columnId: 'role',
-            title: 'Role',
-            options: roles.map((role) => ({ ...role })),
           },
         ]}
       />

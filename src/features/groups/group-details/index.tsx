@@ -36,10 +36,31 @@ import { GroupStudentsTable } from './components/group-students/group-students-t
 
 const route = getRouteApi('/_authenticated/groups/group-details/$groupId')
 
+function calculateDaysSince(dateString: string) {
+  const startDate = new Date(dateString)
+  const today = new Date()
+  const diffTime = today.getTime() - startDate.getTime()
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
+}
+
 export function GroupDetails() {
   const { groupId } = useParams({ strict: false })
   const search = route.useSearch()
   const navigate = route.useNavigate()
+
+  // Dummy data — replace with real data or state as needed
+  const totalStudents = 18
+  const attendanceCount = 15
+  const maxCapacity = 20
+  const totalEmployees = 2
+  const groupStatus = 'Active'
+  const groupStartDate = '2024-09-01' // yyyy-mm-dd format
+  const ageRange = '4 – 5 Years'
+
+  const attendanceRate = ((attendanceCount / totalStudents) * 100).toFixed(0)
+  const availableSlots = maxCapacity - totalStudents
+  const absentStudents = totalStudents - attendanceCount
+  const daysSinceStart = calculateDaysSince(groupStartDate)
 
   return (
     <GroupsProvider>
@@ -103,50 +124,113 @@ export function GroupDetails() {
           {/* ===== Overview ===== */}
           <TabsContent value='overview' className='space-y-6'>
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+              {/* Group Status */}
               <Card>
                 <CardHeader className='pb-2'>
                   <CardTitle className='text-sm'>Group Status</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>Active</div>
+                  <div className='text-2xl font-bold'>{groupStatus}</div>
                   <p className='text-xs text-muted-foreground'>
-                    Started on 01/09/2024
+                    Started on {new Date(groupStartDate).toLocaleDateString()}
+                  </p>
+                  <p className='mt-1 text-xs text-muted-foreground'>
+                    {daysSinceStart} {daysSinceStart === 1 ? 'day' : 'days'}{' '}
+                    since start
                   </p>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader className='pb-2'>
-                  <CardTitle className='text-sm'>Age Range</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>4 – 5 Years</div>
-                  <p className='text-xs text-muted-foreground'>
-                    Kindergarten level
-                  </p>
-                </CardContent>
-              </Card>
-
+              {/* Total Students */}
               <Card>
                 <CardHeader className='pb-2'>
                   <CardTitle className='text-sm'>Total Students</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>18</div>
+                  <div className='text-2xl font-bold'>{totalStudents}</div>
                   <p className='text-xs text-muted-foreground'>
                     Enrolled children
                   </p>
                 </CardContent>
               </Card>
 
+              {/* Attendance */}
+              <Card>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Attendance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='text-xl font-semibold'>
+                    {attendanceCount} / {totalStudents}
+                  </div>
+                  <p className='text-xs text-muted-foreground'>Present today</p>
+                  <p className='mt-1 text-xs text-muted-foreground'>
+                    Attendance Rate: {attendanceRate}%
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Absent Students */}
+              <Card>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Absent Students</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='text-xl font-semibold'>{absentStudents}</div>
+                  <p className='text-xs text-muted-foreground'>
+                    Not present today
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Available Slots */}
+              <Card>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Available Slots</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='text-2xl font-bold'>{availableSlots}</div>
+                  <p className='text-xs text-muted-foreground'>
+                    Spaces left to enroll
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Capacity */}
               <Card>
                 <CardHeader className='pb-2'>
                   <CardTitle className='text-sm'>Capacity</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>20</div>
+                  <div className='text-2xl font-bold'>{maxCapacity}</div>
                   <p className='text-xs text-muted-foreground'>
                     Maximum allowed
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Total Employees */}
+              <Card>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Total Employees</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='text-2xl font-bold'>{totalEmployees}</div>
+                  <p className='text-xs text-muted-foreground'>
+                    Assigned Employees
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Age Range */}
+              <Card>
+                <CardHeader className='pb-2'>
+                  <CardTitle className='text-sm'>Age Range</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='text-2xl font-bold'>{ageRange}</div>
+                  <p className='text-xs text-muted-foreground'>
+                    Kindergarten level
                   </p>
                 </CardContent>
               </Card>
