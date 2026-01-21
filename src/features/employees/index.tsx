@@ -1,11 +1,10 @@
+import { getRouteApi } from '@tanstack/react-router'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { getRouteApi } from '@tanstack/react-router'
-
 import { EmployeesDialogs } from './components/employees-dialogs'
 import { EmployeesPrimaryButtons } from './components/employees-primary-buttons'
 import { EmployeesProvider } from './components/employees-provider'
@@ -32,7 +31,7 @@ export function Employees() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>
+            <h2 className='text-xl font-semibold tracking-tight lg:text-2xl'>
               Employees List
             </h2>
             <p className='text-muted-foreground'>

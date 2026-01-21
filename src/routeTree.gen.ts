@@ -27,6 +27,7 @@ import { Route as AuthenticatedStudentsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedStudentLeavesIndexRouteImport } from './routes/_authenticated/student-leaves/index'
 import { Route as AuthenticatedStudentAttendanceIndexRouteImport } from './routes/_authenticated/student-attendance/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedSchedulesIndexRouteImport } from './routes/_authenticated/schedules/index'
 import { Route as AuthenticatedReportsIndexRouteImport } from './routes/_authenticated/reports/index'
 import { Route as AuthenticatedNotificationsIndexRouteImport } from './routes/_authenticated/notifications/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
@@ -139,6 +140,12 @@ const AuthenticatedSettingsIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+const AuthenticatedSchedulesIndexRoute =
+  AuthenticatedSchedulesIndexRouteImport.update({
+    id: '/schedules/',
+    path: '/schedules/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedReportsIndexRoute =
   AuthenticatedReportsIndexRouteImport.update({
@@ -276,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/reports': typeof AuthenticatedReportsIndexRoute
+  '/schedules': typeof AuthenticatedSchedulesIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/student-attendance': typeof AuthenticatedStudentAttendanceIndexRoute
   '/student-leaves': typeof AuthenticatedStudentLeavesIndexRoute
@@ -312,6 +320,7 @@ export interface FileRoutesByTo {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/notifications': typeof AuthenticatedNotificationsIndexRoute
   '/reports': typeof AuthenticatedReportsIndexRoute
+  '/schedules': typeof AuthenticatedSchedulesIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/student-attendance': typeof AuthenticatedStudentAttendanceIndexRoute
   '/student-leaves': typeof AuthenticatedStudentLeavesIndexRoute
@@ -351,6 +360,7 @@ export interface FileRoutesById {
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/notifications/': typeof AuthenticatedNotificationsIndexRoute
   '/_authenticated/reports/': typeof AuthenticatedReportsIndexRoute
+  '/_authenticated/schedules/': typeof AuthenticatedSchedulesIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/student-attendance/': typeof AuthenticatedStudentAttendanceIndexRoute
   '/_authenticated/student-leaves/': typeof AuthenticatedStudentLeavesIndexRoute
@@ -390,6 +400,7 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/notifications'
     | '/reports'
+    | '/schedules'
     | '/settings/'
     | '/student-attendance'
     | '/student-leaves'
@@ -426,6 +437,7 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/notifications'
     | '/reports'
+    | '/schedules'
     | '/settings'
     | '/student-attendance'
     | '/student-leaves'
@@ -464,6 +476,7 @@ export interface FileRouteTypes {
     | '/_authenticated/help-center/'
     | '/_authenticated/notifications/'
     | '/_authenticated/reports/'
+    | '/_authenticated/schedules/'
     | '/_authenticated/settings/'
     | '/_authenticated/student-attendance/'
     | '/_authenticated/student-leaves/'
@@ -615,6 +628,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
+    }
+    '/_authenticated/schedules/': {
+      id: '/_authenticated/schedules/'
+      path: '/schedules'
+      fullPath: '/schedules'
+      preLoaderRoute: typeof AuthenticatedSchedulesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/reports/': {
       id: '/_authenticated/reports/'
@@ -782,6 +802,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedNotificationsIndexRoute: typeof AuthenticatedNotificationsIndexRoute
   AuthenticatedReportsIndexRoute: typeof AuthenticatedReportsIndexRoute
+  AuthenticatedSchedulesIndexRoute: typeof AuthenticatedSchedulesIndexRoute
   AuthenticatedStudentAttendanceIndexRoute: typeof AuthenticatedStudentAttendanceIndexRoute
   AuthenticatedStudentLeavesIndexRoute: typeof AuthenticatedStudentLeavesIndexRoute
   AuthenticatedStudentsIndexRoute: typeof AuthenticatedStudentsIndexRoute
@@ -806,6 +827,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedNotificationsIndexRoute: AuthenticatedNotificationsIndexRoute,
   AuthenticatedReportsIndexRoute: AuthenticatedReportsIndexRoute,
+  AuthenticatedSchedulesIndexRoute: AuthenticatedSchedulesIndexRoute,
   AuthenticatedStudentAttendanceIndexRoute:
     AuthenticatedStudentAttendanceIndexRoute,
   AuthenticatedStudentLeavesIndexRoute: AuthenticatedStudentLeavesIndexRoute,

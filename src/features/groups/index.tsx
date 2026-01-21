@@ -1,11 +1,10 @@
+import { getRouteApi } from '@tanstack/react-router'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { getRouteApi } from '@tanstack/react-router'
-
 import { GroupsDialogs } from './components/groups-dialogs'
 import { GroupsPrimaryButtons } from './components/groups-primary-buttons'
 import { GroupsProvider } from './components/groups-provider'
@@ -32,7 +31,9 @@ export function Groups() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Groups List</h2>
+            <h2 className='text-xl font-semibold tracking-tight lg:text-2xl'>
+              Groups List
+            </h2>
             <p className='text-muted-foreground'>
               Manage your Groups and their roles here.
             </p>

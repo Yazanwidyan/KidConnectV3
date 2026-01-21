@@ -6,12 +6,10 @@ faker.seed(67890)
 
 export const groups = Array.from({ length: 500 }, () => {
   const name = faker.person.firstName() + " Group"
-  const color = faker.color.human() // or use faker.color.rgb() for hex
 
   return {
     id: faker.string.uuid(),
     name,
-    color,
     totalStudents: faker.number.int({ min: 5, max: 20 }),
     groupType: faker.helpers.arrayElement(['infants', 'toddlers', 'preschool']),
     maxStudents: faker.number.int({ min: 5, max: 20 }),

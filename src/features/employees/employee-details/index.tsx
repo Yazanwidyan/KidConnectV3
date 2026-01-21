@@ -67,29 +67,27 @@ export function EmployeeDetails() {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <h1 className='mt-1 text-2xl font-bold tracking-tight'>
+            <h1 className='mt-1 text-xl font-semibold tracking-tight lg:text-2xl'>
               John A. Doe – Kindergarten Teacher
             </h1>
-            <div className='mt-1 inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm'>
-              <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-                <span>Teacher Reference Code.:</span>
-
-                <span className='font-medium text-foreground'>212124</span>
-
-                <button
-                  type='button'
-                  onClick={() => navigator.clipboard.writeText('212124')}
-                  className='rounded p-1 transition hover:bg-muted'
-                  aria-label='Copy staff reference number'
-                  title='Copy reference number'
-                >
-                  <Copy className='h-4 w-4' />
-                </button>
-              </div>
-            </div>
           </div>
+          <div className='mt-1 inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm'>
+            <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+              <span>Teacher Reference Code.:</span>
 
-          <Button variant='outline'>Download Profile</Button>
+              <span className='font-medium text-foreground'>212124</span>
+
+              <button
+                type='button'
+                onClick={() => navigator.clipboard.writeText('212124')}
+                className='rounded p-1 transition hover:bg-muted'
+                aria-label='Copy staff reference number'
+                title='Copy reference number'
+              >
+                <Copy className='h-4 w-4' />
+              </button>
+            </div>
+          </div>{' '}
         </div>
 
         {/* ===== Tabs ===== */}

@@ -17,6 +17,7 @@ import {
   HelpCircle,
   CalendarCheck,
   Command,
+  FileText,
 } from 'lucide-react'
 
 import { type SidebarData } from '../types'
@@ -55,6 +56,7 @@ export const sidebarData: SidebarData = {
             { title: 'Announcements', url: '/announcements' },
           ],
         },
+        { title: 'Schedules', url: '/schedules', icon: CalendarCheck },
         { title: 'Admissions', url: '/admissions', icon: UserCheck },
         {
           title: 'Attendance & Leaves',
@@ -67,7 +69,7 @@ export const sidebarData: SidebarData = {
           ],
         },
         {
-          title: 'Finance',
+          title: 'Billing',
           icon: CreditCard,
           items: [
             { title: 'Invoices', url: '/invoices' },
@@ -76,7 +78,6 @@ export const sidebarData: SidebarData = {
             { title: 'Payments', url: '/payments' },
           ],
         },
-
         {
           title: 'Auth',
           icon: LogIn,

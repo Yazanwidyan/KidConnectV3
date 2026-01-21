@@ -67,7 +67,7 @@ export function StudentDetails() {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <h1 className='mt-1 text-2xl font-bold tracking-tight'>
+            <h1 className='mt-1 text-xl font-semibold tracking-tight lg:text-2xl'>
               {studentId}
             </h1>
           </div>

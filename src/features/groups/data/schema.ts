@@ -15,7 +15,6 @@ export const groupTypeSchema = z.union([
 const groupSchema = z.object({
   id: z.string(),
   name: z.string(),
-  color: z.string(),
   totalStudents:z.number(),
   maxStudents: z.number(),
   minAge: z.number(),

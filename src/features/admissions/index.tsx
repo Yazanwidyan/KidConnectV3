@@ -1,13 +1,12 @@
+import { getRouteApi } from '@tanstack/react-router'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { TabsContent } from '@/components/ui/tabs'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TabsContent } from '@/components/ui/tabs'
-import { getRouteApi } from '@tanstack/react-router'
-
 import { AdmissionsDialogs } from './components/admissions-dialogs'
 import { AdmissionsPrimaryButtons } from './components/admissions-primary-buttons'
 import { AdmissionsProvider } from './components/admissions-provider'
@@ -71,7 +70,9 @@ export function Admissions() {
 
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Admissions</h2>
+            <h2 className='text-xl font-semibold tracking-tight lg:text-2xl'>
+              Admissions
+            </h2>
             <p className='text-muted-foreground'>
               Manage student admissions and streamline the enrollment process
             </p>

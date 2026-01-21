@@ -31,7 +31,6 @@ import { type Group } from '../data/schema'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required.'),
-  color: z.string().min(1, 'Color is required.'),
   groupType: z.string().min(1, 'Type is required.'),
 
   maxStudents: z.coerce.number().int().positive().optional(),
@@ -68,7 +67,6 @@ export function GroupsActionDialog({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: currentRow?.name ?? '',
-      color: currentRow?.color ?? '',
       groupType: currentRow?.groupType ?? '',
       maxStudents: currentRow?.maxStudents,
       ageRange: currentRow?.ageRange ?? [2, 5],
@@ -121,34 +119,6 @@ export function GroupsActionDialog({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-
-              {/* ---------------- Color ---------------- */}
-              <FormField
-                control={form.control}
-                name='color'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center gap-x-4'>
-                    <FormLabel className='col-span-2 text-end'>Color</FormLabel>
-
-                    <div className='col-span-4 flex items-center gap-3'>
-                      <FormControl>
-                        <Input
-                          type='color'
-                          className='h-10 w-14 cursor-pointer rounded-md p-1'
-                          {...field}
-                        />
-                      </FormControl>
-
-                      {/* Optional: show hex value */}
-                      <span className='text-sm text-muted-foreground'>
-                        {field.value || '#000000'}
-                      </span>
-                    </div>
-
                     <FormMessage className='col-span-4 col-start-3' />
                   </FormItem>
                 )}

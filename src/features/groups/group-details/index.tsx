@@ -100,7 +100,7 @@ export function GroupDetails() {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <h1 className='mt-1 text-2xl font-bold tracking-tight'>
+            <h1 className='mt-1 text-xl font-semibold tracking-tight lg:text-2xl'>
               {groupId}
             </h1>
           </div>
@@ -243,7 +243,7 @@ export function GroupDetails() {
               <div className='flex flex-1 flex-col gap-4 sm:gap-6'>
                 <div className='flex flex-wrap items-end justify-between gap-2'>
                   <div>
-                    <h2 className='text-2xl font-bold tracking-tight'>
+                    <h2 className='text-xl font-semibold tracking-tight lg:text-2xl'>
                       Students List
                     </h2>
                     <p className='text-muted-foreground'>
@@ -268,7 +268,7 @@ export function GroupDetails() {
               <div className='flex flex-1 flex-col gap-4 sm:gap-6'>
                 <div className='flex flex-wrap items-end justify-between gap-2'>
                   <div>
-                    <h2 className='text-2xl font-bold tracking-tight'>
+                    <h2 className='text-xl font-semibold tracking-tight lg:text-2xl'>
                       Employees List
                     </h2>
                     <p className='text-muted-foreground'>
