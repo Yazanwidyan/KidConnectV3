@@ -1,6 +1,5 @@
-import { Button } from '@/components/ui/button'
 import { UserPlus } from 'lucide-react'
-
+import { Button } from '@/components/ui/button'
 import { useGroups } from './groups-provider'
 
 export function GroupsPrimaryButtons() {

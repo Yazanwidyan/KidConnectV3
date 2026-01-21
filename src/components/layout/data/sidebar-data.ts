@@ -68,16 +68,7 @@ export const sidebarData: SidebarData = {
             { title: 'Employee Leaves', url: '/employee-leaves' },
           ],
         },
-        {
-          title: 'Billing',
-          icon: CreditCard,
-          items: [
-            { title: 'Invoices', url: '/invoices' },
-            { title: 'Products & Services', url: '/products' },
-            { title: 'Payment Requests', url: '/payment-requests' },
-            { title: 'Payments', url: '/payments' },
-          ],
-        },
+        { title: 'Billing', url: '/billing', icon: CreditCard },
         {
           title: 'Auth',
           icon: LogIn,

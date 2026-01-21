@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 faker.seed(67890)
 
 
-export const groups = Array.from({ length: 500 }, () => {
+export const groups = Array.from({ length: 5 }, () => {
   const name = faker.person.firstName() + " Group"
 
   return {

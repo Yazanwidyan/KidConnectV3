@@ -20,7 +20,9 @@ import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up'
 import { Route as authSignIn2RouteImport } from './routes/(auth)/sign-in-2'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authOtpRouteImport } from './routes/(auth)/otp'
+import { Route as authLandingRouteImport } from './routes/(auth)/landing'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
+import { Route as authContactUsRouteImport } from './routes/(auth)/contact-us'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedStudentsIndexRouteImport } from './routes/_authenticated/students/index'
@@ -36,6 +38,7 @@ import { Route as AuthenticatedEmployeesIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedEmployeeLeavesIndexRouteImport } from './routes/_authenticated/employee-leaves/index'
 import { Route as AuthenticatedEmployeeAttendanceIndexRouteImport } from './routes/_authenticated/employee-attendance/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedBillingIndexRouteImport } from './routes/_authenticated/billing/index'
 import { Route as AuthenticatedAnnouncementsIndexRouteImport } from './routes/_authenticated/announcements/index'
 import { Route as AuthenticatedAdmissionsIndexRouteImport } from './routes/_authenticated/admissions/index'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
@@ -101,9 +104,19 @@ const authOtpRoute = authOtpRouteImport.update({
   path: '/otp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authLandingRoute = authLandingRouteImport.update({
+  id: '/(auth)/landing',
+  path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   id: '/(auth)/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authContactUsRoute = authContactUsRouteImport.update({
+  id: '/(auth)/contact-us',
+  path: '/contact-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSettingsRouteRoute =
@@ -194,6 +207,12 @@ const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   path: '/chats/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBillingIndexRoute =
+  AuthenticatedBillingIndexRouteImport.update({
+    id: '/billing/',
+    path: '/billing/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAnnouncementsIndexRoute =
   AuthenticatedAnnouncementsIndexRouteImport.update({
     id: '/announcements/',
@@ -257,7 +276,9 @@ const AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute =
 
 export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/contact-us': typeof authContactUsRoute
   '/forgot-password': typeof authForgotPasswordRoute
+  '/landing': typeof authLandingRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
   '/sign-in-2': typeof authSignIn2Route
@@ -275,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/admissions': typeof AuthenticatedAdmissionsIndexRoute
   '/announcements': typeof AuthenticatedAnnouncementsIndexRoute
+  '/billing': typeof AuthenticatedBillingIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/employee-attendance': typeof AuthenticatedEmployeeAttendanceIndexRoute
   '/employee-leaves': typeof AuthenticatedEmployeeLeavesIndexRoute
@@ -294,7 +316,9 @@ export interface FileRoutesByFullPath {
   '/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
 }
 export interface FileRoutesByTo {
+  '/contact-us': typeof authContactUsRoute
   '/forgot-password': typeof authForgotPasswordRoute
+  '/landing': typeof authLandingRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
   '/sign-in-2': typeof authSignIn2Route
@@ -312,6 +336,7 @@ export interface FileRoutesByTo {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/admissions': typeof AuthenticatedAdmissionsIndexRoute
   '/announcements': typeof AuthenticatedAnnouncementsIndexRoute
+  '/billing': typeof AuthenticatedBillingIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/employee-attendance': typeof AuthenticatedEmployeeAttendanceIndexRoute
   '/employee-leaves': typeof AuthenticatedEmployeeLeavesIndexRoute
@@ -334,7 +359,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/(auth)/contact-us': typeof authContactUsRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
+  '/(auth)/landing': typeof authLandingRoute
   '/(auth)/otp': typeof authOtpRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-in-2': typeof authSignIn2Route
@@ -352,6 +379,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/admissions/': typeof AuthenticatedAdmissionsIndexRoute
   '/_authenticated/announcements/': typeof AuthenticatedAnnouncementsIndexRoute
+  '/_authenticated/billing/': typeof AuthenticatedBillingIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/employee-attendance/': typeof AuthenticatedEmployeeAttendanceIndexRoute
   '/_authenticated/employee-leaves/': typeof AuthenticatedEmployeeLeavesIndexRoute
@@ -374,7 +402,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/settings'
+    | '/contact-us'
     | '/forgot-password'
+    | '/landing'
     | '/otp'
     | '/sign-in'
     | '/sign-in-2'
@@ -392,6 +422,7 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/admissions'
     | '/announcements'
+    | '/billing'
     | '/chats'
     | '/employee-attendance'
     | '/employee-leaves'
@@ -411,7 +442,9 @@ export interface FileRouteTypes {
     | '/students/student-details/$studentId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/contact-us'
     | '/forgot-password'
+    | '/landing'
     | '/otp'
     | '/sign-in'
     | '/sign-in-2'
@@ -429,6 +462,7 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/admissions'
     | '/announcements'
+    | '/billing'
     | '/chats'
     | '/employee-attendance'
     | '/employee-leaves'
@@ -450,7 +484,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/_authenticated/settings'
+    | '/(auth)/contact-us'
     | '/(auth)/forgot-password'
+    | '/(auth)/landing'
     | '/(auth)/otp'
     | '/(auth)/sign-in'
     | '/(auth)/sign-in-2'
@@ -468,6 +504,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/notifications'
     | '/_authenticated/admissions/'
     | '/_authenticated/announcements/'
+    | '/_authenticated/billing/'
     | '/_authenticated/chats/'
     | '/_authenticated/employee-attendance/'
     | '/_authenticated/employee-leaves/'
@@ -489,7 +526,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  authContactUsRoute: typeof authContactUsRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
+  authLandingRoute: typeof authLandingRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
   authSignIn2Route: typeof authSignIn2Route
@@ -580,11 +619,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authOtpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/landing': {
+      id: '/(auth)/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof authLandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(auth)/forgot-password': {
       id: '/(auth)/forgot-password'
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof authForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/contact-us': {
+      id: '/(auth)/contact-us'
+      path: '/contact-us'
+      fullPath: '/contact-us'
+      preLoaderRoute: typeof authContactUsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/settings': {
@@ -692,6 +745,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/billing/': {
+      id: '/_authenticated/billing/'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AuthenticatedBillingIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/announcements/': {
       id: '/_authenticated/announcements/'
       path: '/announcements'
@@ -794,6 +854,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAdmissionsIndexRoute: typeof AuthenticatedAdmissionsIndexRoute
   AuthenticatedAnnouncementsIndexRoute: typeof AuthenticatedAnnouncementsIndexRoute
+  AuthenticatedBillingIndexRoute: typeof AuthenticatedBillingIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedEmployeeAttendanceIndexRoute: typeof AuthenticatedEmployeeAttendanceIndexRoute
   AuthenticatedEmployeeLeavesIndexRoute: typeof AuthenticatedEmployeeLeavesIndexRoute
@@ -818,6 +879,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAdmissionsIndexRoute: AuthenticatedAdmissionsIndexRoute,
   AuthenticatedAnnouncementsIndexRoute: AuthenticatedAnnouncementsIndexRoute,
+  AuthenticatedBillingIndexRoute: AuthenticatedBillingIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedEmployeeAttendanceIndexRoute:
     AuthenticatedEmployeeAttendanceIndexRoute,
@@ -846,7 +908,9 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  authContactUsRoute: authContactUsRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
+  authLandingRoute: authLandingRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,
   authSignIn2Route: authSignIn2Route,
