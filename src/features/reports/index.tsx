@@ -1,12 +1,9 @@
-import { Outlet, useNavigate } from '@tanstack/react-router'
-import {
-  Baby,
-  BarChart3,
-  CalendarCheck,
-  ClipboardList,
-  CreditCard,
-  FileText,
-} from 'lucide-react'
+import { ConfigDrawer } from '@/components/config-drawer'
+import { Header } from '@/components/layout/header'
+import { Main } from '@/components/layout/main'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import {
   Card,
   CardDescription,
@@ -14,49 +11,66 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { useNavigate } from '@tanstack/react-router'
+import {
+  Baby,
+  CalendarCheck,
+  ClipboardList,
+  CreditCard,
+  DollarSign,
+  Phone,
+  User,
+  Users,
+} from 'lucide-react'
 
 const reports = [
   {
-    title: 'Student Attendance',
-    description: 'Daily and monthly attendance records',
+    title: 'Activities',
+    description: 'Student notes, observations, and activities',
+    icon: ClipboardList,
+    href: '/reports/student-daily-report',
+  },
+  {
+    title: 'Attendance',
+    description: 'Track how long students spend in your care',
     icon: CalendarCheck,
     href: '/reports/attendance',
   },
   {
-    title: 'Student Progress',
-    description: 'Learning progress and development tracking',
-    icon: BarChart3,
-    href: '/reports/progress',
+    title: 'Staff',
+    description: 'Track staff hours and day breakdowns',
+    icon: Users,
+    href: '/reports/staff',
   },
   {
-    title: 'Payments & Fees',
-    description: 'Tuition payments and outstanding balances',
-    icon: CreditCard,
-    href: '/reports/payments',
+    title: 'Billing',
+    description: 'Financial reports and statements',
+    icon: DollarSign,
+    href: '/reports/billing',
   },
   {
-    title: 'Enrollment Report',
-    description: 'Registered students and group distribution',
+    title: 'Students',
+    description: 'Compile student data into convenient tables',
+    icon: User,
+    href: '/reports/students',
+  },
+  {
+    title: 'Contacts',
+    description: 'Emergency and general guardian contact reports',
+    icon: Phone,
+    href: '/reports/contacts',
+  },
+  {
+    title: 'Enrollment',
+    description: 'Enrollment and waitlist reporting',
     icon: Baby,
     href: '/reports/enrollment',
   },
   {
-    title: 'Staff Attendance',
-    description: 'Teacher and staff check-in history',
-    icon: ClipboardList,
-    href: '/reports/staff-attendance',
-  },
-  {
-    title: 'Custom Report',
-    description: 'Build and export a custom report',
-    icon: FileText,
-    href: '/reports/custom',
+    title: 'Subsidy',
+    description: 'Subsidy Reporting',
+    icon: CreditCard,
+    href: '/reports/subsidy',
   },
 ]
 
@@ -66,7 +80,7 @@ export function Reports() {
   return (
     <>
       {/* ===== Header ===== */}
-      <Header>
+      <Header fixed>
         <Search />
         <div className='ms-auto flex items-center space-x-4'>
           <ThemeSwitch />
@@ -75,49 +89,44 @@ export function Reports() {
         </div>
       </Header>
 
-      <Main fixed>
+      <Main>
         {/* ===== Page Heading ===== */}
         <div className='space-y-1'>
           <h1 className='text-xl font-semibold tracking-tight lg:text-2xl'>
             Reports
           </h1>
           <p className='text-muted-foreground'>
-            Create and view reports for your kindergarten.
+            Select a topic from the list below, to view available reports.
           </p>
         </div>
 
-        <Separator className='my-4 lg:my-6' />
+        <Separator className='my-4 lg:my-4' />
 
         {/* ===== Reports Grid ===== */}
-        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4'>
           {reports.map((report) => {
             const Icon = report.icon
             return (
               <Card
                 key={report.title}
                 onClick={() => navigate({ to: report.href })}
-                className='cursor-pointer transition hover:border-primary hover:shadow-md'
+                className='cursor-pointer transition-colors hover:border-primary'
               >
-                <CardHeader>
-                  <div className='flex items-center gap-3'>
-                    <div className='rounded-lg bg-primary/10 p-2 text-primary'>
-                      <Icon size={22} />
-                    </div>
-                    <div>
-                      <CardTitle className='text-base'>
-                        {report.title}
-                      </CardTitle>
-                      <CardDescription>{report.description}</CardDescription>
-                    </div>
+                <CardHeader className='flex flex-col items-center py-6'>
+                  <div className='mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white'>
+                    <Icon size={28} />
                   </div>
+                  <CardTitle className='text-center font-semibold'>
+                    {report.title}
+                  </CardTitle>
+                  <CardDescription className='mt-1 text-center text-sm text-muted-foreground'>
+                    {report.description}
+                  </CardDescription>
                 </CardHeader>
               </Card>
             )
           })}
         </div>
-
-        {/* Nested report routes */}
-        <Outlet />
       </Main>
     </>
   )

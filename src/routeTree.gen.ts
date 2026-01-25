@@ -46,6 +46,7 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedReportsStudentDailyReportIndexRouteImport } from './routes/_authenticated/reports/student-daily-report/index'
 import { Route as AuthenticatedStudentsStudentDetailsStudentIdRouteImport } from './routes/_authenticated/students/student-details/$studentId'
 import { Route as AuthenticatedGroupsGroupDetailsGroupIdRouteImport } from './routes/_authenticated/groups/group-details/$groupId'
 import { Route as AuthenticatedEmployeesEmployeeDetailsEmployeeIdRouteImport } from './routes/_authenticated/employees/employee-details/$employeeId'
@@ -255,6 +256,12 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReportsStudentDailyReportIndexRoute =
+  AuthenticatedReportsStudentDailyReportIndexRouteImport.update({
+    id: '/reports/student-daily-report/',
+    path: '/reports/student-daily-report/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStudentsStudentDetailsStudentIdRoute =
   AuthenticatedStudentsStudentDetailsStudentIdRouteImport.update({
     id: '/students/student-details/$studentId',
@@ -314,6 +321,7 @@ export interface FileRoutesByFullPath {
   '/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
   '/groups/group-details/$groupId': typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   '/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
+  '/reports/student-daily-report': typeof AuthenticatedReportsStudentDailyReportIndexRoute
 }
 export interface FileRoutesByTo {
   '/contact-us': typeof authContactUsRoute
@@ -354,6 +362,7 @@ export interface FileRoutesByTo {
   '/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
   '/groups/group-details/$groupId': typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   '/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
+  '/reports/student-daily-report': typeof AuthenticatedReportsStudentDailyReportIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -397,6 +406,7 @@ export interface FileRoutesById {
   '/_authenticated/employees/employee-details/$employeeId': typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
   '/_authenticated/groups/group-details/$groupId': typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   '/_authenticated/students/student-details/$studentId': typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
+  '/_authenticated/reports/student-daily-report/': typeof AuthenticatedReportsStudentDailyReportIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -440,6 +450,7 @@ export interface FileRouteTypes {
     | '/employees/employee-details/$employeeId'
     | '/groups/group-details/$groupId'
     | '/students/student-details/$studentId'
+    | '/reports/student-daily-report'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/contact-us'
@@ -480,6 +491,7 @@ export interface FileRouteTypes {
     | '/employees/employee-details/$employeeId'
     | '/groups/group-details/$groupId'
     | '/students/student-details/$studentId'
+    | '/reports/student-daily-report'
   id:
     | '__root__'
     | '/_authenticated'
@@ -522,6 +534,7 @@ export interface FileRouteTypes {
     | '/_authenticated/employees/employee-details/$employeeId'
     | '/_authenticated/groups/group-details/$groupId'
     | '/_authenticated/students/student-details/$studentId'
+    | '/_authenticated/reports/student-daily-report/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -801,6 +814,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reports/student-daily-report/': {
+      id: '/_authenticated/reports/student-daily-report/'
+      path: '/reports/student-daily-report'
+      fullPath: '/reports/student-daily-report'
+      preLoaderRoute: typeof AuthenticatedReportsStudentDailyReportIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/students/student-details/$studentId': {
       id: '/_authenticated/students/student-details/$studentId'
       path: '/students/student-details/$studentId'
@@ -871,6 +891,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute: typeof AuthenticatedEmployeesEmployeeDetailsEmployeeIdRoute
   AuthenticatedGroupsGroupDetailsGroupIdRoute: typeof AuthenticatedGroupsGroupDetailsGroupIdRoute
   AuthenticatedStudentsStudentDetailsStudentIdRoute: typeof AuthenticatedStudentsStudentDetailsStudentIdRoute
+  AuthenticatedReportsStudentDailyReportIndexRoute: typeof AuthenticatedReportsStudentDailyReportIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -901,6 +922,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedGroupsGroupDetailsGroupIdRoute,
   AuthenticatedStudentsStudentDetailsStudentIdRoute:
     AuthenticatedStudentsStudentDetailsStudentIdRoute,
+  AuthenticatedReportsStudentDailyReportIndexRoute:
+    AuthenticatedReportsStudentDailyReportIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

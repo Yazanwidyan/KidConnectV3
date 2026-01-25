@@ -1,5 +1,6 @@
-import { MailPlus, UserPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { MailPlus, UserPlus } from 'lucide-react'
+
 import { useAdmissions } from './admissions-provider'
 
 export function AdmissionsPrimaryButtons() {
@@ -14,7 +15,7 @@ export function AdmissionsPrimaryButtons() {
         <span>Get Registration Link</span> <MailPlus size={18} />
       </Button>
       <Button className='space-x-1' onClick={() => setOpen('add')}>
-        <span>Add Admission</span> <UserPlus size={18} />
+        <span>Register New Student</span> <UserPlus size={18} />
       </Button>
     </div>
   )
