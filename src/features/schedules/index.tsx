@@ -51,11 +51,9 @@ export function Schedules() {
         <div className='mb-4 flex items-center justify-between'>
           <div>
             <h1 className='text-xl font-semibold tracking-tight lg:text-2xl'>
-              Schedule
+              Schedules
             </h1>
-            <p className='text-muted-foreground'>
-              Manage Staff and Student Schedules
-            </p>
+            <p className='text-muted-foreground'>Manage Staff Schedules</p>
           </div>
         </div>
 

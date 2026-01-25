@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import { cn } from '@/lib/utils'
+import { useEffect, useState } from 'react'
 
 type HeaderProps = React.HTMLAttributes<HTMLElement> & {
   fixed?: boolean
@@ -26,8 +26,8 @@ export function Header({ className, fixed, children, ...props }: HeaderProps) {
   return (
     <header
       className={cn(
-        'z-50 h-16',
-        fixed && 'header-fixed peer/header sticky top-0 w-[inherit]',
+        'z-50 h-14',
+        fixed && 'header-fixed peer/header sticky top-0 w-[inherit] border-b',
         offset > 10 && fixed ? 'shadow' : 'shadow-none',
         className
       )}

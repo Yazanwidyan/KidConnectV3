@@ -7,7 +7,6 @@ export const students = Array.from({ length: 500 }, () => {
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
 
-  // Generate parent names for emails
   const parent1FirstName = faker.person.firstName()
   const parent2FirstName = faker.person.firstName()
 
@@ -36,5 +35,6 @@ export const students = Array.from({ length: 500 }, () => {
     ]),
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
+    profilePic: faker.image.avatar(), // Use faker.image.avatar()
   }
 })

@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { group } from 'node:console'
 
 // Set a fixed seed for consistent data generation
 faker.seed(67890)
@@ -11,6 +10,7 @@ export const studentAttendance = Array.from({ length: 500 }, () => {
 
   return {
     id: faker.string.uuid(),
+    profilePic: faker.image.avatar(), // Use faker.image.avatar()
     firstName,
     lastName,
     groupName: `REG${faker.string.uuid()}`,

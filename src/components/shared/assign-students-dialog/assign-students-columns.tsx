@@ -34,6 +34,31 @@ export const assignStudentsColumns: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'profilePic',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='' />,
+    cell: ({ row }) => {
+      const profilePic: string = row.getValue('profilePic')
+      const studentName: string = row.getValue('studentname')
+      return (
+        <div className='flex items-center ps-3'>
+          <img
+            src={profilePic}
+            alt={`${studentName} profile`}
+            className='h-8 w-8 rounded-full object-cover'
+            loading='lazy'
+            draggable={false}
+          />
+        </div>
+      )
+    },
+    meta: {
+      className: cn('max-md:sticky start-0 z-10 rounded-tl-[inherit]'),
+    },
+    enableSorting: false,
+    enableHiding: false,
+    size: 50, // optional, to control column width
+  },
+  {
     accessorKey: 'studentname',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Student Name' />
