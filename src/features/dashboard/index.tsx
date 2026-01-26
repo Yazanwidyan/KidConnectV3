@@ -1,5 +1,6 @@
 // src/components/dashboard.tsx
 
+import { AttendanceBarChart } from '@/components/charts/AttendanceBarChart'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -13,31 +14,64 @@ import {
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useRouter } from '@tanstack/react-router'
-import { Minus, PlusCircle, TrendingDown, TrendingUp } from 'lucide-react'
+import { PlusCircle } from 'lucide-react'
 
-// Sample data
-const announcements = [
-  { id: 1, title: 'School reopens on Monday', date: '2026-01-20' },
-  { id: 2, title: 'New library books arrived', date: '2026-01-18' },
-  { id: 3, title: 'Parent-Teacher meeting next week', date: '2026-01-25' },
+import { LatestPaymentsTable } from './components/LatestPaymentsTable'
+
+const latestPayments = [
+  {
+    id: 1,
+    student: 'John Doe',
+    amount: 120,
+    status: 'Paid',
+    date: '2026-01-24',
+  },
+  {
+    id: 2,
+    student: 'Jane Smith',
+    amount: 150,
+    status: 'Pending',
+    date: '2026-01-25',
+  },
+  {
+    id: 3,
+    student: 'Alex Johnson',
+    amount: 100,
+    status: 'Paid',
+    date: '2026-01-23',
+  },
+  {
+    id: 4,
+    student: 'Maria Lee',
+    amount: 200,
+    status: 'Failed',
+    date: '2026-01-22',
+  },
+]
+const totalPosts = 131
+
+const postStats = [
+  { label: 'Photos', value: 34, color: 'bg-blue-500' },
+  { label: 'Videos', value: 12, color: 'bg-green-500' },
+  { label: 'Announcements', value: 8, color: 'bg-yellow-500' },
+  { label: 'Approval', value: 3, color: 'bg-red-500' },
+  { label: 'Incidents', value: 2, color: 'bg-purple-500' },
 ]
 
 const attendanceRatios = [
   { room: 'Room A', studentsCheckedIn: 28, staffCheckedIn: 3 },
   { room: 'Room B', studentsCheckedIn: 25, staffCheckedIn: 2 },
   { room: 'Room C', studentsCheckedIn: 30, staffCheckedIn: 4 },
+  { room: 'Room D', studentsCheckedIn: 27, staffCheckedIn: 3 },
+  { room: 'Room E', studentsCheckedIn: 30, staffCheckedIn: 4 },
+  { room: 'Room F', studentsCheckedIn: 29, staffCheckedIn: 3 },
+  { room: 'Room G', studentsCheckedIn: 12, staffCheckedIn: 3 },
+  { room: 'Room H', studentsCheckedIn: 16, staffCheckedIn: 6 },
+  { room: 'Room I', studentsCheckedIn: 12, staffCheckedIn: 1 },
+  { room: 'Room J', studentsCheckedIn: 14, staffCheckedIn: 5 },
+  { room: 'Room K', studentsCheckedIn: 29, staffCheckedIn: 8 },
+  { room: 'Room L', studentsCheckedIn: 22, staffCheckedIn: 2 },
 ]
-
-const TrendIcon = ({ trend }: { trend: string }) => {
-  if (trend.startsWith('+')) {
-    return <TrendingUp className='h-4 w-4' />
-  }
-  if (trend.startsWith('-')) {
-    return <TrendingDown className='h-4 w-4' />
-  }
-  return <Minus className='h-4 w-4 opacity-50' />
-}
 
 export function Dashboard() {
   return (
@@ -47,14 +81,14 @@ export function Dashboard() {
     </ActivitiesProvider>
   )
 }
+const total = postStats.reduce((sum, i) => sum + i.value, 0)
 
+const statsWithPercent = postStats.map((item) => ({
+  ...item,
+  percent: item.value / total,
+}))
 function DashboardContent() {
   const { setOpen } = useActivities()
-
-  const roomsCount = 12
-  const studentsCount = 350
-  const staffCount = 45
-  const workHoursThisWeek = '40 hrs'
 
   return (
     <>
@@ -72,9 +106,18 @@ function DashboardContent() {
       <Main className='space-y-4'>
         {/* Page Title and Actions */}
         <div className='flex items-center justify-between'>
-          <h1 className='text-xl font-semibold tracking-tight lg:text-2xl'>
-            Dashboard
-          </h1>
+          <div className='flex items-center gap-2'>
+            <h2 className='flex items-center gap-3 text-lg font-semibold tracking-tight lg:text-2xl'>
+              Good Morning, Yazan 👋
+            </h2>
+            <h2 className='my-1 flex items-center gap-3 text-lg tracking-tight lg:text-xl'>
+              {new Date().toLocaleDateString(undefined, {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </h2>
+          </div>
           <div className='flex items-center gap-2'>
             <Button
               onClick={() => setOpen('select-activity')}
@@ -92,28 +135,24 @@ function DashboardContent() {
             {
               label: 'Total Students',
               value: 350,
-              trend: '+3%',
               color: 'text-green-800',
               bg: 'bg-green-100',
             },
             {
               label: 'Present Today',
               value: 312,
-              trend: '89%',
               color: 'text-blue-800',
               bg: 'bg-blue-100',
             },
             {
               label: 'Absent Today',
               value: 38,
-              trend: '-5%',
               color: 'text-red-800',
               bg: 'bg-red-100',
             },
             {
               label: 'Staff On Duty',
               value: 42,
-              trend: 'OK',
               color: 'text-green-800',
               bg: 'bg-green-100',
             },
@@ -122,12 +161,6 @@ function DashboardContent() {
               <CardContent>
                 <div className='mb-2 flex items-end justify-between'>
                   <p className='text-sm font-medium'>{kpi.label}</p>
-                  <span
-                    className={`${kpi.color} ${kpi.bg} flex items-center gap-1 rounded-md border px-2 text-xs font-medium`}
-                  >
-                    <TrendIcon trend={kpi.trend} />
-                    {kpi.trend}
-                  </span>
                 </div>
                 <div className='flex items-end justify-between'>
                   <span className='text-3xl font-semibold'>{kpi.value}</span>
@@ -137,82 +170,75 @@ function DashboardContent() {
           ))}
         </div>
         <div className='grid gap-4 lg:grid-cols-3'>
+          <Card>
+            <CardHeader>
+              <CardTitle>Total Posts</CardTitle>
+              <div className='flex items-end justify-between'>
+                <span className='text-3xl font-semibold'>{totalPosts}</span>
+              </div>
+            </CardHeader>
+
+            <CardContent className='h-64'>
+              {/* Distribution Bar */}
+              <div className='mt-4'>
+                <div
+                  className='grid h-3 w-full overflow-hidden rounded-full bg-muted'
+                  style={{
+                    gridTemplateColumns: statsWithPercent
+                      .map((i) => `${i.percent}fr`)
+                      .join(' '),
+                  }}
+                >
+                  {statsWithPercent.map((item) => (
+                    <div key={item.label} className={`${item.color} `} />
+                  ))}
+                </div>
+              </div>
+
+              <div className='mt-4 space-y-4'>
+                {postStats.map((item) => {
+                  return (
+                    <div
+                      key={item.label}
+                      className='flex items-center justify-between border-b pb-4 last:border-none'
+                    >
+                      <div className='flex items-center gap-2'>
+                        <span
+                          className={`h-4 w-4 rounded-full ${item.color}`}
+                        />
+                        <h5 className='text-sm font-medium'>{item.label}</h5>
+                      </div>
+
+                      <div className='flex items-center gap-3 text-sm text-muted-foreground'>
+                        <span>{item.value}</span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Today Attendance */}
           <Card className='lg:col-span-2'>
             <CardHeader>
               <CardTitle>Today Attendance</CardTitle>
-              <p className='text-sm text-muted-foreground'>
-                Per room check-in status
-              </p>
             </CardHeader>
-            <CardContent className='space-y-4'>
-              {attendanceRatios.map(({ room, studentsCheckedIn }) => {
-                const percent = Math.round((studentsCheckedIn / 30) * 100)
-                return (
-                  <div key={room}>
-                    <div className='flex justify-between text-sm'>
-                      <span>{room}</span>
-                      <span>{studentsCheckedIn} / 30</span>
-                    </div>
-                    <div className='h-2 w-full rounded bg-muted'>
-                      <div
-                        className='h-2 rounded bg-primary'
-                        style={{ width: `${percent}%` }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </CardContent>
-          </Card>
-
-          {/* Alerts */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Alerts</CardTitle>
-            </CardHeader>
-            <CardContent className='space-y-3 text-sm'>
-              <p className='rounded-md bg-red-50 p-2 text-red-600'>
-                ⚠ Room B has low attendance
-              </p>
-              <p className='rounded-md bg-yellow-50 p-2 text-yellow-700'>
-                ⏰ 2 staff not checked in yet
-              </p>
-              <p className='rounded-md bg-blue-50 p-2 text-blue-700'>
-                📅 Parent meeting tomorrow
-              </p>
+            <CardContent className='h-96'>
+              <AttendanceBarChart
+                labels={attendanceRatios.map((r) => r.room)}
+                data={attendanceRatios.map((r) => r.studentsCheckedIn)}
+              />
             </CardContent>
           </Card>
         </div>
-
-        <div className='grid gap-4 lg:grid-cols-2'>
-          {/* Announcements */}
-          <Card>
+        <div className='grid gap-4 lg:grid-cols-1'>
+          <Card className='lg:col-span-1'>
             <CardHeader>
-              <CardTitle>Announcements</CardTitle>
+              <CardTitle>Latest Payments</CardTitle>
             </CardHeader>
-            <CardContent className='space-y-3 text-sm'>
-              {announcements.map((a) => (
-                <div key={a.id} className='border-b pb-2 last:border-none'>
-                  <p className='font-medium'>{a.title}</p>
-                  <p className='text-xs text-muted-foreground'>
-                    {new Date(a.date).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Recent Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-            </CardHeader>
-            <CardContent className='text-sm text-muted-foreground'>
-              • Student checked in – Room A
-              <br />
-              • Staff shift started – Sarah
-              <br />• New admission submitted
+            <CardContent>
+              <LatestPaymentsTable data={latestPayments} />
             </CardContent>
           </Card>
         </div>

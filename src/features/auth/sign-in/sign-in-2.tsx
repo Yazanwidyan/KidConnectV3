@@ -11,10 +11,10 @@ export function SignIn2() {
           <div className='mb-4 flex items-center justify-center'>
             <img
               src={'/images/logo2.png'}
-              alt={'KidConnect'}
+              alt={'KidooCare'}
               className='me-2 h-8 w-8 object-cover'
             />
-            <h1 className='text-xl font-medium'>KidConnect</h1>
+            <h1 className='text-xl font-medium'>KidooCare</h1>
           </div>
         </div>
         <div className='mx-auto flex w-full max-w-sm flex-col justify-center space-y-2'>

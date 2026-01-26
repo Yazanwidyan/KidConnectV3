@@ -9,7 +9,7 @@ export function LandingLayout({ children }: LayoutProps) {
       <header className='bg-white shadow-md'>
         <nav className='mx-auto flex max-w-7xl items-center justify-between p-4'>
           <Link to='/' className='text-2xl font-bold'>
-            KidConnect
+            KidooCare
           </Link>
           <div className='flex gap-6'>
             <Link to='/'>Home</Link>
@@ -27,7 +27,7 @@ export function LandingLayout({ children }: LayoutProps) {
       <footer className='border-t bg-white py-6 text-center text-sm text-muted-foreground'>
         <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 md:flex-row'>
           <p>
-            &copy; {new Date().getFullYear()} KidConnect. All rights reserved.
+            &copy; {new Date().getFullYear()} KidooCare. All rights reserved.
           </p>
           <div className='flex gap-4'>
             <Link to='/privacy'>Privacy Policy</Link>

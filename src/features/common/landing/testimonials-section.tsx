@@ -10,7 +10,7 @@ export function TestimonialsSection() {
     },
     {
       name: "Ms. Meriem, Madeleine's Preschool",
-      quote: 'KidConnect replaced multiple apps and exceeded expectations.',
+      quote: 'KidooCare replaced multiple apps and exceeded expectations.',
     },
   ]
 

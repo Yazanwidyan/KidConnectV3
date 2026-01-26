@@ -31,7 +31,7 @@ export const sidebarData: SidebarData = {
 
   teams: [
     {
-      name: 'KidConnect',
+      name: 'KidooCare',
       logo: Command,
       plan: 'Vite + ShadcnUI',
     },

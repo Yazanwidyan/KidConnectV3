@@ -18,11 +18,11 @@ export function AppTitle() {
         <div className='flex items-center gap-3'>
           <img
             src={'/images/logo2.png'}
-            alt={'KidConnect'}
+            alt={'KidooCare'}
             className='h-8 w-8 rounded object-cover'
           />
           <div>
-            <div className='truncate font-bold'>KidConnect</div>
+            <div className='truncate font-bold'>KidooCare</div>
             <div className='truncate text-xs'>X kindergarten</div>
           </div>
         </div>
@@ -43,11 +43,11 @@ export function AppTitle() {
                 <div className='flex items-center gap-3'>
                   <img
                     src={'/images/logo2.png'}
-                    alt={'KidConnect'}
+                    alt={'KidooCare'}
                     className='h-8 w-8 object-cover'
                   />
                   <div>
-                    <div className='truncate font-bold'>KidConnect</div>
+                    <div className='truncate font-bold'>KidooCare</div>
                     <div className='truncate text-xs'>X kindergarten</div>
                   </div>
                 </div>

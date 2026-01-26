@@ -70,7 +70,7 @@ export function HeroSection() {
           transition={{ duration: 1, delay: 0.7 }}
           className='mt-6 text-sm'
         >
-          Already use KidConnect?{' '}
+          Already use KidooCare?{' '}
           <a href='#' className='font-medium underline'>
             Join your school
           </a>

@@ -28,9 +28,9 @@ export function FeaturesSection() {
   return (
     <section className='bg-muted/50 py-24'>
       <div className='mx-auto mb-12 max-w-6xl text-center'>
-        <h2 className='text-3xl font-bold'>Why Choose KidConnect?</h2>
+        <h2 className='text-3xl font-bold'>Why Choose KidooCare?</h2>
         <p className='mt-2 text-muted-foreground'>
-          KidConnect simplifies childcare management by combining communication,
+          KidooCare simplifies childcare management by combining communication,
           learning tools, and administration into one platform.
         </p>
       </div>
